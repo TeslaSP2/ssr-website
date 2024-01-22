@@ -1,5 +1,5 @@
 import { ArchivePost } from "../interfaces/General";
 
-export async function fetchPost(post: string): ArchivePost {
-    
+export async function fetchPost(id: string): ArchivePost {
+
 }
