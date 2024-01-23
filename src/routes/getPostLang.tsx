@@ -12,7 +12,7 @@ const data = await fetchPostLang(post, lang);
 return c.html(
     <Post
       post={data}
-      url={data.externalLink != undefined ? data.externalLink : c.req.path}
+      url={data.externalLink != undefined ? data.externalLink : c.req.path.substring(0, c.req.path.lastIndexOf('/')+1)}
     />
   );
 }

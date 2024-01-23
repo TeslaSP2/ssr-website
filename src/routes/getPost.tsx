@@ -1,13 +1,13 @@
 import { Handler } from "hono";
 import { Post } from "../components/Post";
-import { fetchPost } from "../lib/fetchPost";
+import { fetchPostLang } from "../lib/fetchPostLang";
 
 export const getPost: Handler<
     {},
     "/post/:post"
 > = async (c) => {
     const { post } = c.req.param();
-    const data = await fetchPost(post);
+    const data = await fetchPostLang(post, "en");
 
     return c.html(
         <Post
