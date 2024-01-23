@@ -13,6 +13,12 @@ export interface DisplayCollection {
     featuredImage: string;
 }
 
+export interface DisplayTag {
+    tag: string;
+    name: string;
+    featuredImage: string;
+}
+
 export interface OutLink {
     type: string
     link: string;

@@ -1,13 +1,13 @@
 import { Handler } from "hono";
 import { Collection } from "../components/Collection";
-import { fetchCollectionLang } from "../lib/fetchCollection";
+import { fetchCollection } from "../lib/fetchCollection";
 
 export const getCollection: Handler <
     {},
   "/c/:collection"
 > = async (c) => {
     const { collection } = c.req.param();
-    const data = await fetchCollectionLang(collection, "en");
+    const data = await fetchCollection(collection, "en");
 
     return c.html(
         <Collection

@@ -3,7 +3,7 @@ import { Post } from "../interfaces/Post";
 import { getFeaturedStuffFromPost } from "./Dependency";
 import { RandomInt, Interpreter } from "./extension-methods";
 
-export async function fetchPostLang(id: string, lang: string) {
+export async function fetchPost(id: string, lang: string) {
   let archivePost = ((await (await fetch('https://files.teslasp2.com/assets/jsons/'+`archive-posts.json?${RandomInt(99999999999)}`)).json()) as ArchivePost[]).filter(p => p.id == id).firstOrDefault();
   if(archivePost == null)
   {
@@ -35,7 +35,7 @@ export async function fetchPostLang(id: string, lang: string) {
     return {id: id, name: title, description: title, featuredImage: (archivePost.featuredImage != undefined ? archivePost.featuredImage : ''), altFeaturedImage: (archivePost.altFeaturedImage != undefined ? archivePost.altFeaturedImage : ''),  externalLink: archivePost.externalLink}
   }
 
-  let firstLine = indicators+Interpreter(post.body.filter(b => b.type == 'p').firstOrDefault().content, lang).stuff.rasterize();
+  let firstLine = Interpreter(post.body.filter(b => b.type == 'p').firstOrDefault().content, lang).stuff.rasterize();
 
   let fs = getFeaturedStuffFromPost(archivePost, post, lang);
   
