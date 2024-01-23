@@ -1,6 +1,6 @@
 import { Handler } from "hono";
 import { Collection } from "../components/Collection";
-import { fetchCollectionLang } from "../lib/fetchCollectionLang";
+import { fetchCollectionLang } from "../lib/fetchCollection";
 
 export const getCollection: Handler <
     {},

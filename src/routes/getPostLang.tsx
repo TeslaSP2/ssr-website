@@ -1,6 +1,6 @@
 import { Handler } from "hono";
 import { Post } from "../components/Post";
-import { fetchPostLang } from "../lib/fetchPostLang";
+import { fetchPostLang } from "../lib/fetchPost";
 
 export const getPostLang: Handler<
   {},
