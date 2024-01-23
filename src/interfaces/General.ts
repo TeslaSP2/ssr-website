@@ -19,6 +19,13 @@ export interface DisplayTag {
     featuredImage: string;
 }
 
+export interface DisplayOc {
+    source: string;
+    name: string;
+    description: string;
+    featuredImage?: string;
+}
+
 export interface OutLink {
     type: string
     link: string;
