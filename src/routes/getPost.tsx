@@ -12,7 +12,7 @@ export const getPost: Handler<
     return c.html(
         <Post
           post={data}
-          url={c.req.path}
+          url={data.externalLink != undefined ? data.externalLink : c.req.path}
         />
       );
 }

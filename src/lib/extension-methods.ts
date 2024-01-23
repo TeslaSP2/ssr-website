@@ -1,4 +1,3 @@
-import { ArchivePost } from "../interfaces/General";
 import { LangKeyedString } from "../interfaces/General";
 
 export const MapAsync = <T, U>(array: T[], callbackfn: (value: T, index: number, array: T[]) => Promise<U>): Promise<U[]> => {

@@ -7,9 +7,9 @@ export interface LayoutProps {
 
 export const Layout = ({ url, children }: LayoutProps) => {
   const removeLeadingSlash = url.substring(1);
-  const redirectUrl = removeLeadingSlash.startsWith("https://")
+  const redirectUrl = !url.startsWith("https://") ? (removeLeadingSlash.startsWith("https://")
     ? removeLeadingSlash
-    : `https://teslasp2.com/${removeLeadingSlash}`;
+    : `https://teslasp2.com/${removeLeadingSlash}`) : url;
   return html`
     <!DOCTYPE html>
     <html>
@@ -25,7 +25,7 @@ export const Layout = ({ url, children }: LayoutProps) => {
         <meta name="twitter:card" content="summary_large_image" />
 
         ${children}
-        <meta http-equiv="refresh" content="0;url=${redirectUrl}" />
+        <!--<meta http-equiv="refresh" content="0;url=${redirectUrl}" />-->
       </head>
     </html>
   `;

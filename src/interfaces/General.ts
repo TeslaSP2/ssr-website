@@ -1,8 +1,9 @@
-export interface ArchivePost {
+export interface DisplayPost {
     id: string;
     name: string;
     description: string;
     featuredImage: string;
+    externalLink?: string;
 }
 export interface OutLink {
     type: string
