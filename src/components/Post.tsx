@@ -7,7 +7,7 @@ interface PostProps {
 }
 
 export const Post = ({ post, url }: PostProps) => (
-    <Layout url={'/archive'+url}>
+    <Layout url={url}>
         <title>{post.name}</title>
         <meta name="description" content={post.description} />
 

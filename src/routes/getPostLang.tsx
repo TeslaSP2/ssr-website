@@ -3,16 +3,16 @@ import { Post } from "../components/Post";
 import { fetchPostLang } from "../lib/fetchPostLang";
 
 export const getPostLang: Handler<
-{},
-"/post/:post/:lang"
+  {},
+  "/p/:post/:lang"
 > = async (c) => {
-const { post, lang } = c.req.param();
-const data = await fetchPostLang(post, lang);
+  const { post, lang } = c.req.param();
+  const data = await fetchPostLang(post, lang);
 
-return c.html(
+  return c.html(
     <Post
       post={data}
-      url={data.externalLink != undefined ? data.externalLink : c.req.path.substring(0, c.req.path.lastIndexOf('/')+1)}
+      url={data.externalLink != undefined ? data.externalLink : `/archive/post/${post}`}
     />
   );
 }

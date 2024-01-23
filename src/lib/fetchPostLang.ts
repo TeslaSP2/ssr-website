@@ -1,5 +1,6 @@
 import { ArchivePost } from "../interfaces/ArchivePost";
 import { Post } from "../interfaces/Post";
+import { getFeaturedStuffFromPost } from "./Dependency";
 import { RandomInt, Interpreter } from "./extension-methods";
 
 export async function fetchPostLang(id: string, lang: string) {
@@ -10,7 +11,18 @@ export async function fetchPostLang(id: string, lang: string) {
   }
 
   let titleLine = archivePost.linkPart.filter(h => h.key == lang || (h.key != lang && h.key == "def")).firstOrDefault();
-  let title = titleLine != null ? titleLine.str : archivePost.linkPart[0].str;
+
+  let indicators = "";
+  if(archivePost.nsfw == true)
+    indicators += "🔞 "
+  if(archivePost.cringe == true)
+    indicators += "🤢 "
+  if(archivePost.scrapped == true)
+    indicators += "🗑️ "
+  if(archivePost.musical == true)
+    indicators += "🎶 "
+
+  let title = indicators+(titleLine != null ? titleLine.str : archivePost.linkPart[0].str);
 
   if(archivePost.jsonName == "" || archivePost.jsonName == undefined || archivePost.jsonName == null)
   {
@@ -23,67 +35,9 @@ export async function fetchPostLang(id: string, lang: string) {
     return {id: id, name: title, description: title, featuredImage: (archivePost.featuredImage != undefined ? archivePost.featuredImage : ''), altFeaturedImage: (archivePost.altFeaturedImage != undefined ? archivePost.altFeaturedImage : ''),  externalLink: archivePost.externalLink}
   }
 
-  let indicators = "";
-  if(archivePost.nsfw == true)
-    indicators += "🔞 (Contains elements for mature audiences) "
-  if(archivePost.cringe == true)
-    indicators += "🤢 (Cringe) "
-  if(archivePost.scrapped == true)
-    indicators += "🗑️ (Scrapped) "
-  if(archivePost.musical == true)
-    indicators += "🎶 (Has music) "
-  if(indicators.length > 0)
-    indicators += "\n"
+  let firstLine = indicators+Interpreter(post.body.filter(b => b.type == 'p').firstOrDefault().content, lang).stuff.rasterize();
 
-  let firstLine = indicators+Interpreter(post.body.filter(b => b.type == 'p').firstOrDefault().content, lang).stuff.firstOrDefault();
-
-  function getFeaturedStuffFromPost(archivePost: ArchivePost, post: Post) {
-    let year = archivePost.unlockDate.toDate().getFullYear()+""
-      let ret: { image: string; censImage?: string; alt?: string; } = {image: "", censImage: undefined, alt: undefined};
-  
-        ret.image = post.featuredImage != undefined ? ("https://files.teslasp2.com/assets/imgs/posts/"+year+"/"+archivePost.jsonName+"/"+(true && post.censoredFeaturedImage != undefined ? post.censoredFeaturedImage : post.featuredImage)) : '';
-        if(post.censoredFeaturedImage == undefined)
-        {
-          if(post.altFeaturedImage != undefined)
-          {        
-            if(isNaN(+post.altFeaturedImage))
-              ret.alt = post.altFeaturedImage;
-            else
-            {
-              let altLines: string[] = [];
-              let imgBlock = post.body.filter(block => block.type == 'img').firstOrDefault();
-              if(imgBlock != null)
-                if(imgBlock.alt != undefined)
-                  if(imgBlock.alt.filter(a => a.key == lang).firstOrDefault() != null) {
-                    let stuff = imgBlock.alt.filter(a => a.key == lang).firstOrDefault().stuff.filter(s => s.nsfw == true ? !true : true);
-  
-                    if(stuff.length > 0)
-                      for(const s of stuff)
-                      {
-                        altLines.push(s.str);
-                      }
-                  }
-  
-              if(altLines.length > 0)
-                ret.alt = altLines[(+post.altFeaturedImage - 1)];
-            }
-          }
-          else
-          {
-            let firstImage = post.body.filter(block => block.type == 'img').firstOrDefault();
-  
-            if(firstImage != null)
-              if(firstImage.alt != undefined)
-                if(firstImage.alt.filter(a => a.key == lang).firstOrDefault() != null) {
-                  let stuff = firstImage.alt.filter(a => a.key == lang).firstOrDefault().stuff.filter(s => s.nsfw == true ? !true : true).firstOrDefault();
-                  ret.alt = stuff != null ? stuff.str : undefined;
-                }
-          }
-        }
-        return ret;
-  };
-
-  let fs = getFeaturedStuffFromPost(archivePost, post);
+  let fs = getFeaturedStuffFromPost(archivePost, post, lang);
   
   return {id: id, name: title, description: firstLine, featuredImage: fs.censImage != undefined ? fs.censImage : fs.image, altFeaturedImage: fs.alt}
 }

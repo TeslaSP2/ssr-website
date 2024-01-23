@@ -6,6 +6,13 @@ export interface DisplayPost {
     altFeaturedImage?: string;
     externalLink?: string;
 }
+
+export interface DisplayCollection {
+    id: string;
+    name: string;
+    featuredImage: string;
+}
+
 export interface OutLink {
     type: string
     link: string;

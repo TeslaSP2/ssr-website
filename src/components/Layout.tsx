@@ -7,9 +7,9 @@ export interface LayoutProps {
 
 export const Layout = ({ url, children }: LayoutProps) => {
   const removeLeadingSlash = url.substring(1);
-  const redirectUrl = !url.startsWith("https://") ? (removeLeadingSlash.startsWith("https://")
+  const redirectUrl = !url.startsWith("https://") ? ((removeLeadingSlash.startsWith("https://")
     ? removeLeadingSlash
-    : `https://teslasp2.com/${removeLeadingSlash}`) : url;
+    : `https://teslasp2.com/${removeLeadingSlash}`)) : url;
   return html`
     <!DOCTYPE html>
     <html>
