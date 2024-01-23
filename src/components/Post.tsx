@@ -14,6 +14,8 @@ export const Post = ({ post, url }: PostProps) => (
         <meta property="og:title" content={post.name} />
         <meta property="og:description" content={post.description} />
         <meta property="og:image" content={post.featuredImage} />
+        <meta property="og:image:type" content="image/webp" />
+        <meta property="og:image:alt" content={post.altFeaturedImage} />
 
         <meta name="twitter:title" content={post.name} />
         <meta name="twitter:description" content={post.description} />

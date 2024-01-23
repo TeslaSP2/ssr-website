@@ -21,6 +21,7 @@ export const Layout = ({ url, children }: LayoutProps) => {
         <meta property="og:url" content="${redirectUrl}" />
 
         <meta name="twitter:url" content="${redirectUrl}" />
+        <meta name="twitter:site" content="TeslaSP2" />
         <meta name="twitter:creator" content="TeslaSP2" />
         <meta name="twitter:card" content="summary_large_image" />
 

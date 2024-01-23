@@ -2,14 +2,14 @@ import { ArchivePost } from "../interfaces/ArchivePost";
 import { Post } from "../interfaces/Post";
 import { RandomInt, Interpreter } from "./extension-methods";
 
-export async function fetchPost(id: string) {
+export async function fetchPostLang(id: string, lang: string) {
   let archivePost = ((await (await fetch('https://files.teslasp2.com/assets/jsons/'+`archive-posts.json?${RandomInt(99999999999)}`)).json()) as ArchivePost[]).filter(p => p.id == id).firstOrDefault();
   if(archivePost == null)
   {
     return {id: id, name: "", description: "", featuredImage: ""}
   }
 
-  let titleLine = archivePost.linkPart.filter(h => h.key == "en" || (h.key != "en" && h.key == "def")).firstOrDefault();
+  let titleLine = archivePost.linkPart.filter(h => h.key == lang || (h.key != lang && h.key == "def")).firstOrDefault();
   let title = titleLine != null ? titleLine.str : archivePost.linkPart[0].str;
 
   if(archivePost.jsonName == "" || archivePost.jsonName == undefined || archivePost.jsonName == null)
@@ -35,7 +35,7 @@ export async function fetchPost(id: string) {
   if(indicators.length > 0)
     indicators += "\n"
 
-  let firstLine = indicators+Interpreter(post.body.filter(b => b.type == 'p').firstOrDefault().content, "en").stuff.firstOrDefault();
+  let firstLine = indicators+Interpreter(post.body.filter(b => b.type == 'p').firstOrDefault().content, lang).stuff.firstOrDefault();
 
   function getFeaturedStuffFromPost(archivePost: ArchivePost, post: Post) {
     let year = archivePost.unlockDate.toDate().getFullYear()+""
@@ -54,8 +54,8 @@ export async function fetchPost(id: string) {
               let imgBlock = post.body.filter(block => block.type == 'img').firstOrDefault();
               if(imgBlock != null)
                 if(imgBlock.alt != undefined)
-                  if(imgBlock.alt.filter(a => a.key == "en").firstOrDefault() != null) {
-                    let stuff = imgBlock.alt.filter(a => a.key == "en").firstOrDefault().stuff.filter(s => s.nsfw == true ? !true : true);
+                  if(imgBlock.alt.filter(a => a.key == lang).firstOrDefault() != null) {
+                    let stuff = imgBlock.alt.filter(a => a.key == lang).firstOrDefault().stuff.filter(s => s.nsfw == true ? !true : true);
   
                     if(stuff.length > 0)
                       for(const s of stuff)
@@ -74,8 +74,8 @@ export async function fetchPost(id: string) {
   
             if(firstImage != null)
               if(firstImage.alt != undefined)
-                if(firstImage.alt.filter(a => a.key == "en").firstOrDefault() != null) {
-                  let stuff = firstImage.alt.filter(a => a.key == "en").firstOrDefault().stuff.filter(s => s.nsfw == true ? !true : true).firstOrDefault();
+                if(firstImage.alt.filter(a => a.key == lang).firstOrDefault() != null) {
+                  let stuff = firstImage.alt.filter(a => a.key == lang).firstOrDefault().stuff.filter(s => s.nsfw == true ? !true : true).firstOrDefault();
                   ret.alt = stuff != null ? stuff.str : undefined;
                 }
           }

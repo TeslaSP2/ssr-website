@@ -2,7 +2,8 @@ export interface DisplayPost {
     id: string;
     name: string;
     description: string;
-    featuredImage: string;
+    featuredImage?: string;
+    altFeaturedImage?: string;
     externalLink?: string;
 }
 export interface OutLink {
