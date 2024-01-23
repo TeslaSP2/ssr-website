@@ -17,7 +17,7 @@ export async function fetchOc(source: string, lang: string) {
                         description+= "\n";
                 }
 
-        description += Interpreter(char.personality, lang);
+        description += Interpreter(char.personality, lang).stuff.rasterize();
         
         return {source: source, name: name, description: description, featuredImage: char.personalData.headshot};
     }

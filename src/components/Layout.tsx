@@ -26,7 +26,7 @@ export const Layout = ({ url, children }: LayoutProps) => {
         <meta name="twitter:card" content="summary_large_image" />
 
         ${children}
-        <meta http-equiv="refresh" content="0;url=${redirectUrl}" />
+        <!--<meta http-equiv="refresh" content="0;url=${redirectUrl}" />-->
       </head>
     </html>
   `;
