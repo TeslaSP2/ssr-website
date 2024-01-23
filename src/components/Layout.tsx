@@ -16,8 +16,8 @@ export const Layout = ({ url, children }: LayoutProps) => {
       <head>
         <link rel="canonical" href="${url.substring(1)}" />
         <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-        <meta content="#0085ff" name="theme-color" />
-        <meta property="og:site_name" content="FixTeslaSP2" />
+        <meta content="#00968f" name="theme-color" />
+        <meta property="og:site_name" content="TeslaSP2" />
         <meta property="og:url" content="${redirectUrl}" />
 
         <meta name="twitter:url" content="${redirectUrl}" />
@@ -25,7 +25,7 @@ export const Layout = ({ url, children }: LayoutProps) => {
         <meta name="twitter:card" content="summary_large_image" />
 
         ${children}
-        <!--<meta http-equiv="refresh" content="0;url=${redirectUrl}" />-->
+        <meta http-equiv="refresh" content="0;url=${redirectUrl}" />
       </head>
     </html>
   `;
