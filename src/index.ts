@@ -9,6 +9,7 @@ import { getOc } from './routes/getOc';
 import { getOcLang } from './routes/getOcLang';
 import { getTagOrCollection } from './routes/getTagOrCollection';
 import { getTagOrCollectionLang } from './routes/getTagOrCollectionLang';
+import { getEmojis } from './routes/getEmojis';
 
 const app = new Hono()
 
@@ -46,5 +47,7 @@ app.get("/t/:tag/:lang", getTagLang);
 app.get("/archive/:tagCol", getTagOrCollection);
 app.get("/archive/:tagCol/:lang", getTagOrCollectionLang);
 //#endregion Col or Tag
+
+app.get("/emojis", getEmojis);
 
 export default app

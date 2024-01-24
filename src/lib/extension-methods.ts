@@ -228,11 +228,11 @@ Array.prototype.removeAt = function<T>(this: Array<T>, index: number): Array<T> 
   return ret;
 }
 
-Array.prototype.rasterize = function(this: string[]): string {
+Array.prototype.rasterize = function<T>(this: T[]): string {
   let ret = "";
   for(let i = 0; i < this.length; i++)
   {
-    const str = this[i];
+    const str = this[i]+"";
     ret += str+(i < this.length-1 ? "\n" : "");
   }
   return ret;
