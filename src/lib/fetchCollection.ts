@@ -4,7 +4,7 @@ import { Post } from "../interfaces/Post";
 import { getFeaturedStuffFromPost } from "./Dependency";
 import { RandomInt } from "./extension-methods";
 
-export async function fetchCollection(id: string, lang: string) {
+export async function fetchCollection(id: string, lang: string = "en") {
     let collection = (await (await fetch(`https://files.teslasp2.com/assets/jsons/post-collections.json?${RandomInt(999999999)}`)).json() as Collection[]).filter(c => c.id == id).firstOrDefault();
     let archivePosts = ((await (await fetch(`https://files.teslasp2.com/assets/jsons/archive-posts.json?${RandomInt(999999999)}`)).json()) as ArchivePost[]).filter(p => p.collection != undefined ? p.collection.includes(id) : false)
     let images: string[] = [];

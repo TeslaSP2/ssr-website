@@ -4,10 +4,10 @@ import { fetchPost } from "../lib/fetchPost";
 
 export const getPost: Handler<
   {},
-  "/p/:post"
+  "/p/:post" | "/https://teslasp2.com/archive/post/:post"
 > = async (c) => {
   const { post } = c.req.param();
-  const data = await fetchPost(post, "en");
+  const data = await fetchPost(post);
 
   return c.html(
     <Post

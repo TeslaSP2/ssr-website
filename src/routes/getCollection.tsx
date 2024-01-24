@@ -7,7 +7,7 @@ export const getCollection: Handler <
   "/c/:collection"
 > = async (c) => {
     const { collection } = c.req.param();
-    const data = await fetchCollection(collection, "en");
+    const data = await fetchCollection(collection);
 
     return c.html(
         <Collection

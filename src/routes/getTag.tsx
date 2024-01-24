@@ -7,7 +7,7 @@ export const getTag: Handler <
   "/t/:tag"
 > = async (c) => {
     const { tag } = c.req.param();
-    const data = await fetchTag(tag, "en");
+    const data = await fetchTag(tag);
 
     return c.html(
         <Tag

@@ -1,11 +1,10 @@
 import { ArchivePost } from "../interfaces/ArchivePost";
-import { Char, SetDNI } from "../interfaces/Id";
 import { Post } from "../interfaces/Post";
 import { Tag } from "../interfaces/Tag";
 import { getFeaturedStuffFromPost } from "./Dependency";
 import { Interpreter, RandomInt } from "./extension-methods";
 
-export async function fetchTag(tagCode: string, lang: string) {
+export async function fetchTag(tagCode: string, lang: string = "en") {
     let archivePosts = ((await (await fetch(`https://files.teslasp2.com/assets/jsons/archive-posts.json?${RandomInt(999999999)}`)).json()) as ArchivePost[]).filter(p => p.tags != undefined ? p.tags.includes(tagCode) : false)
     let tag = ((await (await fetch(`https://files.teslasp2.com/assets/jsons/tags.json?${RandomInt(999999999)}`)).json()) as Tag[]).filter(t => t.code == tagCode).firstOrDefault();
     let images: string[] = [];

@@ -1,7 +1,7 @@
 import { Char } from "../interfaces/Id";
 import { Interpreter, RandomInt } from "./extension-methods";
 
-export async function fetchOc(source: string, lang: string) {
+export async function fetchOc(source: string, lang: string = "en") {
     let char = await getSpecificChar(source, source);
     if(char != undefined)
     {
