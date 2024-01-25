@@ -1,5 +1,5 @@
-import { ArchivePost } from "../interfaces/ArchivePost";
-import { Post } from "../interfaces/Post";
+import { ArchivePost } from "../../interfaces/ArchivePost";
+import { Post } from "../../interfaces/Post";
 
 export function getFeaturedStuffFromPost(archivePost: ArchivePost, post: Post, lang: string = "en") {
     let year = archivePost.unlockDate.toDate().getFullYear()+""

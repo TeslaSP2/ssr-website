@@ -1,10 +1,10 @@
-import { ArchivePost } from "../interfaces/ArchivePost";
-import { Post } from "../interfaces/Post";
-import { Tag } from "../interfaces/Tag";
-import { Collection } from "../interfaces/Collection";
-import { Char } from "../interfaces/Id";
-import { getFeaturedStuffFromPost } from "./Dependency";
-import { RandomInt, Interpreter } from "./extension-methods";
+import { ArchivePost } from "../../interfaces/ArchivePost";
+import { Post } from "../../interfaces/Post";
+import { Tag } from "../../interfaces/Tag";
+import { Collection } from "../../interfaces/Collection";
+import { Char } from "../../interfaces/Id";
+import { getFeaturedStuffFromPost } from "../utils/Dependency";
+import { RandomInt, Interpreter } from "../utils/extension-methods";
 
 export async function fetchPost(id: string, lang: string = "en") {
   let archivePost = ((await (await fetch('https://files.teslasp2.com/assets/jsons/'+`archive-posts.json?${RandomInt(99999999999)}`)).json()) as ArchivePost[]).filter(p => p.id == id).firstOrDefault();

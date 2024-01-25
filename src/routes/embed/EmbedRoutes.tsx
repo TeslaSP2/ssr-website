@@ -1,12 +1,12 @@
 import { Handler } from "hono";
 import { isUUID } from "validator";
 
-import { Post } from "../components/Post";
-import { Tag } from "../components/Tag";
-import { Collection } from "../components/Collection";
-import { Oc } from "../components/Oc";
+import { Post } from "../../components/Post";
+import { Tag } from "../../components/Tag";
+import { Collection } from "../../components/Collection";
+import { Oc } from "../../components/Oc";
 
-import { fetchPost, fetchTag, fetchCollection, fetchOc } from "../lib/EmbedFetch";
+import { fetchPost, fetchTag, fetchCollection, fetchOc } from "../../lib/embed/EmbedFetch";
 
 export const getCollection: Handler <
     {},

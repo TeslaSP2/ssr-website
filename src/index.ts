@@ -1,6 +1,6 @@
 import { Hono } from 'hono'
-import { getCollection, getOc, getPost, getTag, getTagOrCollection } from './routes/EmbedRoutes';
-import { getEmojis } from './routes/getEmojis';
+import { getCollection, getOc, getPost, getTag, getTagOrCollection } from './routes/embed/EmbedRoutes';
+import { getEmojis } from './routes/utils/getEmojis';
 
 const app = new Hono()
 
