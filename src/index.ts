@@ -8,6 +8,7 @@ import { getArchive, getArchiveLastPosts, getArchivePost } from './routes/api/Ar
 import { getChangelog, getChangelogs } from './routes/api/ChangelogsRoutes';
 import { getChat } from './routes/api/ChatRoutes';
 import { getCollection, getCollections } from './routes/api/CollectionsRoutes';
+import { getColors } from './routes/api/ColorsRoutes';
 
 const app = new Hono()
 
@@ -54,7 +55,7 @@ app.get("/api/chat/:id", getChat);
 app.get("/api/collections", getCollections);
 app.get("/api/collection/:id", getCollection);
 
-app.get("/api/colors");
+app.get("/api/colors", getColors);
 
 app.get("/api/compareSorts");
 
