@@ -6,6 +6,7 @@ import { getAmeDiary, getAmeFiles } from './routes/api/AmeRoutes';
 import { getAllAnnouncements, getAnnouncement, getAnnouncements } from './routes/api/AnnouncementsRoutes';
 import { getArchive, getArchiveLastPosts, getArchivePost } from './routes/api/ArchiveRoutes';
 import { getChangelog, getChangelogs } from './routes/api/ChangelogsRoutes';
+import { getChat } from './routes/api/ChatRoutes';
 
 const app = new Hono()
 
@@ -47,7 +48,7 @@ app.get("/api/archive/last/:x/posts", getArchiveLastPosts);
 app.get("/api/changelogs", getChangelogs);
 app.get("/api/changelog/:id", getChangelog);
 
-app.get("/api/chat/:id");
+app.get("/api/chat/:id", getChat);
 
 app.get("/api/collections");
 app.get("/api/collection/:id");
