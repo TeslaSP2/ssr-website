@@ -11,6 +11,7 @@ import { getCollection, getCollections } from './routes/api/CollectionsRoutes';
 import { getColors } from './routes/api/ColorsRoutes';
 import { getCompareSorts } from './routes/api/CompareSorts';
 import { getEmoji, getEmojis } from './routes/api/EmojisRoutes';
+import { getLinks } from './routes/api/LinksRoutes';
 
 const app = new Hono()
 
@@ -64,7 +65,7 @@ app.get("/api/compareSorts", getCompareSorts);
 app.get("/api/iEmojis", getEmojis);
 app.get("/api/iEmoji/:shortCode", getEmoji);
 
-app.get("/api/links");
+app.get("/api/links", getLinks);
 
 app.get("/api/music");
 

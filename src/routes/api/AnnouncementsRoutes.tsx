@@ -1,4 +1,5 @@
 import { Handler } from "hono";
+
 import { fetchAnnouncements } from "../../lib/api/announcements/fetchAnnouncements";
 import { fetchAllAnnouncements } from "../../lib/api/announcements/fetchAllAnnouncements";
 import { fetchAnnouncement } from "../../lib/api/announcements/fetchAnnouncement";
