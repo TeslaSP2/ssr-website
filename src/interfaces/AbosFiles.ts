@@ -1,6 +1,6 @@
 import { BodyBlock, LangKeyedString } from "./General";
 
-export interface FilesAbos {
+export interface AbosFiles {
     Name: LangKeyedString[];
     Type: string;
     Folder: string;

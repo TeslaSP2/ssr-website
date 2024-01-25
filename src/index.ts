@@ -1,7 +1,7 @@
 import { Hono } from 'hono'
 import { getCollection, getOc, getPost, getTag, getTagOrCollection } from './routes/embed/EmbedRoutes';
 import { getEmojis } from './routes/utils/getEmojis';
-import { getAbosFiles } from './routes/api/AbosRoutes';
+import { getAbosFiles, getAbosTable } from './routes/api/AbosRoutes';
 
 const app = new Hono()
 
@@ -27,7 +27,7 @@ app.get("/emojis", getEmojis);
 
 //#region API
 app.get("/api/abos/files", getAbosFiles);
-app.get("/api/abos/table/:id");
+app.get("/api/abos/table/:id", getAbosTable);
 
 app.get("/api/ame/files");
 app.get("/api/ame/diary");
