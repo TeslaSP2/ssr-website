@@ -24,4 +24,30 @@ app.get("/archive/:tagCol", getTagOrCollection);
 
 app.get("/emojis", getEmojis);
 
+//#region API
+app.get("/api/abos/files");
+app.get("/api/abos/table/:id");
+
+app.get("/api/ame/files");
+
+app.get("/api/announcements");
+app.get("/api/announcements/all");
+app.get("/api/announcement/:id");
+app.get("/api/announcement/date/:id");
+
+app.get("/api/archive");
+
+app.get("/api/changelogs");
+app.get("/api/changelog/:id");
+
+app.get("/api/chat/:id");
+
+app.get("/api/collections");
+app.get("/api/collection/:id");
+
+app.get("/api/colors");
+
+
+//#endregion API
+
 export default app

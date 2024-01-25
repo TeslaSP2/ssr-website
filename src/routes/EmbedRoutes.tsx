@@ -6,10 +6,7 @@ import { Tag } from "../components/Tag";
 import { Collection } from "../components/Collection";
 import { Oc } from "../components/Oc";
 
-import { fetchPost } from "../lib/fetchPost";
-import { fetchTag } from "../lib/fetchTag";
-import { fetchCollection } from "../lib/fetchCollection";
-import { fetchOc } from "../lib/fetchOc";
+import { fetchPost, fetchTag, fetchCollection, fetchOc } from "../lib/EmbedFetch";
 
 export const getCollection: Handler <
     {},
