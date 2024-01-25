@@ -3,6 +3,7 @@ import { getCollection, getOc, getPost, getTag, getTagOrCollection } from './rou
 import { getEmojis } from './routes/utils/getEmojis';
 import { getAbosFiles, getAbosTable } from './routes/api/AbosRoutes';
 import { getAmeDiary, getAmeFiles } from './routes/api/AmeRoutes';
+import { getAllAnnouncements, getAnnouncement, getAnnouncements } from './routes/api/AnnouncementsRoutes';
 
 const app = new Hono()
 
@@ -33,10 +34,9 @@ app.get("/api/abos/table/:id", getAbosTable);
 app.get("/api/ame/files", getAmeFiles);
 app.get("/api/ame/diary", getAmeDiary);
 
-app.get("/api/announcements/all");
-app.get("/api/announcements");
-app.get("/api/announcement/:id");
-app.get("/api/announcementDate/:id");
+app.get("/api/announcements/all", getAllAnnouncements);
+app.get("/api/announcements", getAnnouncements);
+app.get("/api/announcement/:id", getAnnouncement);
 
 app.get("/api/archive");
 
