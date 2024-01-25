@@ -1,6 +1,6 @@
 import { Hono } from 'hono'
 import { getCollectionEmbed, getOcEmbed, getPostEmbed, getTagEmbed, getTagOrCollectionEmbed } from './routes/embed/EmbedRoutes';
-import { getEmojis } from './routes/utils/getEmojis';
+import { getEmojisTable } from './routes/utils/getEmojis';
 import { getAbosFiles, getAbosTable } from './routes/api/AbosRoutes';
 import { getAmeDiary, getAmeFiles } from './routes/api/AmeRoutes';
 import { getAllAnnouncements, getAnnouncement, getAnnouncements } from './routes/api/AnnouncementsRoutes';
@@ -10,6 +10,7 @@ import { getChat } from './routes/api/ChatRoutes';
 import { getCollection, getCollections } from './routes/api/CollectionsRoutes';
 import { getColors } from './routes/api/ColorsRoutes';
 import { getCompareSorts } from './routes/api/CompareSorts';
+import { getEmoji, getEmojis } from './routes/api/EmojisRoutes';
 
 const app = new Hono()
 
@@ -31,7 +32,7 @@ app.get("/t/:tag", getTagEmbed);
 app.get("/archive/:tagCol", getTagOrCollectionEmbed);
 //#endregion For the Embeds
 
-app.get("/emojis", getEmojis);
+app.get("/emojis", getEmojisTable);
 
 //#region API
 app.get("/api/abos/files", getAbosFiles);
@@ -60,8 +61,8 @@ app.get("/api/colors", getColors);
 
 app.get("/api/compareSorts", getCompareSorts);
 
-app.get("/api/iEmojis");
-app.get("/api/iEmoji/:shortCode");
+app.get("/api/iEmojis", getEmojis);
+app.get("/api/iEmoji/:shortCode", getEmoji);
 
 app.get("/api/links");
 

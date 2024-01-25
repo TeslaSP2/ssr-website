@@ -9,7 +9,7 @@ interface MtntEmoji {
     src: string;
 }
 
-export const getEmojis: Handler <
+export const getEmojisTable: Handler <
     {},
   "/emojis"
 > = async (c) => {
