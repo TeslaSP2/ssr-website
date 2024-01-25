@@ -5,7 +5,7 @@ export function getFeaturedStuffFromPost(archivePost: ArchivePost, post: Post, l
     let year = archivePost.unlockDate.toDate().getFullYear()+""
       let ret: { image: string; censImage?: string; alt?: string; } = {image: "", censImage: undefined, alt: undefined};
   
-        ret.image = post.featuredImage != undefined ? ("https://files.teslasp2.com/assets/imgs/posts/"+year+"/"+archivePost.jsonName+"/"+(true && post.censoredFeaturedImage != undefined ? post.censoredFeaturedImage : post.featuredImage)) : '';
+        ret.image = post.featuredImage != undefined ? (`https://files.teslasp2.com/assets/imgs/posts/${year}/${archivePost.jsonName}/${true && post.censoredFeaturedImage != undefined ? post.censoredFeaturedImage : post.featuredImage}`) : '';
         if(post.censoredFeaturedImage == undefined)
         {
           if(post.altFeaturedImage != undefined)

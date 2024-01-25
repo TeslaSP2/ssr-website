@@ -7,7 +7,7 @@ import { getFeaturedStuffFromPost } from "../utils/Dependency";
 import { RandomInt, Interpreter } from "../utils/extension-methods";
 
 export async function fetchPost(id: string, lang: string = "en") {
-  let archivePost = ((await (await fetch('https://files.teslasp2.com/assets/jsons/'+`archive-posts.json?${RandomInt(99999999999)}`)).json()) as ArchivePost[]).filter(p => p.id == id).firstOrDefault();
+  let archivePost = ((await (await fetch(`https://files.teslasp2.com/assets/jsons/archive-posts.json`)).json()) as ArchivePost[]).filter(p => p.id == id).firstOrDefault();
   if(archivePost == null)
   {
     return {id: id, name: "", description: "", featuredImage: ""}
@@ -32,7 +32,7 @@ export async function fetchPost(id: string, lang: string = "en") {
     return {id: id, name: title, description: title, featuredImage: (archivePost.featuredImage != undefined ? archivePost.featuredImage : ''), altFeaturedImage: (archivePost.altFeaturedImage != undefined ? archivePost.altFeaturedImage : ''),  externalLink: archivePost.externalLink}
   }
 
-  let post = (await (await fetch('https://files.teslasp2.com/assets/jsons/'+"posts/"+archivePost.unlockDate.toDate().getFullYear()+"/"+archivePost.jsonName+".json?"+RandomInt(99999999999))).json()) as Post;
+  let post = (await (await fetch(`https://files.teslasp2.com/assets/jsons/posts/${archivePost.unlockDate.toDate().getFullYear()}/${archivePost.jsonName}.json`)).json()) as Post;
   if(post == null)
   {
     return {id: id, name: title, description: title, featuredImage: (archivePost.featuredImage != undefined ? archivePost.featuredImage : ''), altFeaturedImage: (archivePost.altFeaturedImage != undefined ? archivePost.altFeaturedImage : ''),  externalLink: archivePost.externalLink}
@@ -48,8 +48,8 @@ export async function fetchPost(id: string, lang: string = "en") {
 
 
 export async function fetchTag(tagCode: string, lang: string = "en") {
-    let archivePosts = ((await (await fetch(`https://files.teslasp2.com/assets/jsons/archive-posts.json?${RandomInt(999999999)}`)).json()) as ArchivePost[]).filter(p => p.tags != undefined ? p.tags.includes(tagCode) : false)
-    let tag = ((await (await fetch(`https://files.teslasp2.com/assets/jsons/tags.json?${RandomInt(999999999)}`)).json()) as Tag[]).filter(t => t.code == tagCode).firstOrDefault();
+    let archivePosts = ((await (await fetch(`https://files.teslasp2.com/assets/jsons/archive-posts.json`)).json()) as ArchivePost[]).filter(p => p.tags != undefined ? p.tags.includes(tagCode) : false)
+    let tag = ((await (await fetch(`https://files.teslasp2.com/assets/jsons/tags.json`)).json()) as Tag[]).filter(t => t.code == tagCode).firstOrDefault();
     let images: string[] = [];
 
     let title = Interpreter(tag.name, lang).stuff.firstOrDefault();
@@ -63,7 +63,7 @@ export async function fetchTag(tagCode: string, lang: string = "en") {
         }
         else
         {
-            let post = (await (await fetch('https://files.teslasp2.com/assets/jsons/'+"posts/"+archivePost.unlockDate.toDate().getFullYear()+"/"+archivePost.jsonName+".json?"+RandomInt(99999999999))).json()) as Post;
+            let post = (await (await fetch(`https://files.teslasp2.com/assets/jsons/posts/${archivePost.unlockDate.toDate().getFullYear()}/${archivePost.jsonName}.json`)).json()) as Post;
             if(post != null)
             {
                 let fs = getFeaturedStuffFromPost(archivePost, post, lang);
@@ -76,8 +76,8 @@ export async function fetchTag(tagCode: string, lang: string = "en") {
 }
 
 export async function fetchCollection(id: string, lang: string = "en") {
-    let collection = (await (await fetch(`https://files.teslasp2.com/assets/jsons/post-collections.json?${RandomInt(999999999)}`)).json() as Collection[]).filter(c => c.id == id).firstOrDefault();
-    let archivePosts = ((await (await fetch(`https://files.teslasp2.com/assets/jsons/archive-posts.json?${RandomInt(999999999)}`)).json()) as ArchivePost[]).filter(p => p.collection != undefined ? p.collection.includes(id) : false)
+    let collection = (await (await fetch(`https://files.teslasp2.com/assets/jsons/post-collections.json`)).json() as Collection[]).filter(c => c.id == id).firstOrDefault();
+    let archivePosts = ((await (await fetch(`https://files.teslasp2.com/assets/jsons/archive-posts.json`)).json()) as ArchivePost[]).filter(p => p.collection != undefined ? p.collection.includes(id) : false)
     let images: string[] = [];
 
     let titleLine = collection.name.filter(h => h.key == lang || (h.key != lang && h.key == "def")).firstOrDefault();
@@ -92,7 +92,7 @@ export async function fetchCollection(id: string, lang: string = "en") {
         }
         else
         {
-            let post = (await (await fetch('https://files.teslasp2.com/assets/jsons/'+"posts/"+archivePost.unlockDate.toDate().getFullYear()+"/"+archivePost.jsonName+".json?"+RandomInt(99999999999))).json()) as Post;
+            let post = (await (await fetch(`https://files.teslasp2.com/assets/jsons/posts/${archivePost.unlockDate.toDate().getFullYear()}/${archivePost.jsonName}.json`)).json()) as Post;
             if(post != null)
             {
                 let fs = getFeaturedStuffFromPost(archivePost, post, lang);
@@ -129,13 +129,12 @@ export async function fetchOc(source: string, lang: string = "en") {
 }
 
 async function getSpecificChar(bio: string, source: string, oc?: string) {
-    let salt = RandomInt(9999999999);
     let esChar: Char | undefined;
     if(oc == undefined)
       oc = bio;
 
     try {
-      esChar = ((await (await fetch(`https://files.teslasp2.com/assets/jsons/oc-bios/chars/${oc}/${source}.json?${salt}`)).json()) as Char);
+      esChar = ((await (await fetch(`https://files.teslasp2.com/assets/jsons/oc-bios/chars/${oc}/${source}.json`)).json()) as Char);
     } catch (error) {
       esChar = undefined;
     }
