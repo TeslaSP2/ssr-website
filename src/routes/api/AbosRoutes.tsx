@@ -7,17 +7,15 @@ export const getAbosFiles: Handler <
 {},
 "/api/abos/files"
 > = async (c) => {
-const data = await fetchFiles();
-
-return c.json(data);
+    const data = await fetchFiles();
+    return c.json(data);
 }
 
 export const getAbosTable: Handler <
 {},
 "/api/abos/table/:id"
 > = async (c) => {
-const { id } = c.req.param();
-const data = await fetchTable(id);
-
-return c.json(data);
+    const { id } = c.req.param();
+    const data = await fetchTable(id);
+    return c.json(data);
 }

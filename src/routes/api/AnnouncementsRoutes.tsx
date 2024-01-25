@@ -7,27 +7,24 @@ export const getAnnouncements: Handler <
 {},
 "/api/announcements"
 > = async (c) => {
-const noPinned = c.req.query('noPinned');
-const data = await fetchAnnouncements(noPinned == 'true');
-
-return c.json(data);
+    const noPinned = c.req.query('noPinned');
+    const data = await fetchAnnouncements(noPinned == 'true');
+    return c.json(data);
 }
 
 export const getAllAnnouncements: Handler <
 {},
 "/api/announcements/all"
 > = async (c) => {
-const data = await fetchAllAnnouncements();
-
-return c.json(data);
+    const data = await fetchAllAnnouncements();
+    return c.json(data);
 }
 
 export const getAnnouncement: Handler <
 {},
 "/api/announcement/:id"
 > = async (c) => {
-const { id } = c.req.param();
-const data = await fetchAnnouncement(id);
-
-return c.json(data);
+    const { id } = c.req.param();
+    const data = await fetchAnnouncement(id);
+    return c.json(data);
 }
