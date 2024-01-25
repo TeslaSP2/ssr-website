@@ -13,6 +13,7 @@ import { getCompareSorts } from './routes/api/CompareSorts';
 import { getEmoji, getEmojis } from './routes/api/EmojisRoutes';
 import { getLinks } from './routes/api/LinksRoutes';
 import { getMusic } from './routes/api/MusicRoutes';
+import { getNatFiles } from './routes/api/NatRoutes';
 
 const app = new Hono()
 
@@ -70,7 +71,7 @@ app.get("/api/links", getLinks);
 
 app.get("/api/music", getMusic);
 
-app.get("/api/nat/files");
+app.get("/api/nat/files", getNatFiles);
 
 app.get("/api/ocBios/chars/all");
 app.get("/api/ocBios/chars/faq");
