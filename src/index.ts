@@ -9,6 +9,7 @@ import { getChangelog, getChangelogs } from './routes/api/ChangelogsRoutes';
 import { getChat } from './routes/api/ChatRoutes';
 import { getCollection, getCollections } from './routes/api/CollectionsRoutes';
 import { getColors } from './routes/api/ColorsRoutes';
+import { getCompareSorts } from './routes/api/CompareSorts';
 
 const app = new Hono()
 
@@ -57,7 +58,7 @@ app.get("/api/collection/:id", getCollection);
 
 app.get("/api/colors", getColors);
 
-app.get("/api/compareSorts");
+app.get("/api/compareSorts", getCompareSorts);
 
 app.get("/api/iEmojis");
 app.get("/api/iEmoji/:shortCode");
