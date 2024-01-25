@@ -8,7 +8,7 @@ import { Oc } from "../../components/Oc";
 
 import { fetchPost, fetchTag, fetchCollection, fetchOc } from "../../lib/embed/EmbedFetch";
 
-export const getCollection: Handler <
+export const getCollectionEmbed: Handler <
     {},
   "/c/:collection"
 > = async (c) => {
@@ -24,7 +24,7 @@ export const getCollection: Handler <
       );
 }
 
-export const getOc: Handler <
+export const getOcEmbed: Handler <
     {},
   "/oc/:cat/:char" | "/https://teslasp2.com/oc-bios/:cat/:char"
 > = async (c) => {
@@ -40,7 +40,7 @@ export const getOc: Handler <
       );
 }
 
-export const getPost: Handler<
+export const getPostEmbed: Handler<
   {},
   "/p/:post" | "/https://teslasp2.com/archive/post/:post"
 > = async (c) => {
@@ -56,7 +56,7 @@ export const getPost: Handler<
   );
 }
 
-export const getTag: Handler <
+export const getTagEmbed: Handler <
     {},
   "/t/:tag"
 > = async (c) => {
@@ -72,7 +72,7 @@ export const getTag: Handler <
       );
 }
 
-export const getTagOrCollection: Handler <
+export const getTagOrCollectionEmbed: Handler <
   {},
   "/archive/:tagCol"
 > = async (c) => {

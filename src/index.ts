@@ -1,5 +1,5 @@
 import { Hono } from 'hono'
-import { getCollection, getOc, getPost, getTag, getTagOrCollection } from './routes/embed/EmbedRoutes';
+import { getCollectionEmbed, getOcEmbed, getPostEmbed, getTagEmbed, getTagOrCollectionEmbed } from './routes/embed/EmbedRoutes';
 import { getEmojis } from './routes/utils/getEmojis';
 import { getAbosFiles, getAbosTable } from './routes/api/AbosRoutes';
 import { getAmeDiary, getAmeFiles } from './routes/api/AmeRoutes';
@@ -7,6 +7,7 @@ import { getAllAnnouncements, getAnnouncement, getAnnouncements } from './routes
 import { getArchive, getArchiveLastPosts, getArchivePost } from './routes/api/ArchiveRoutes';
 import { getChangelog, getChangelogs } from './routes/api/ChangelogsRoutes';
 import { getChat } from './routes/api/ChatRoutes';
+import { getCollection, getCollections } from './routes/api/CollectionsRoutes';
 
 const app = new Hono()
 
@@ -15,17 +16,17 @@ app.get('/', async (c) => {
 })
 
 //#region For the Embeds
-app.get("/p/:post", getPost);
-app.get("/archive/post/:post", getPost);
+app.get("/p/:post", getPostEmbed);
+app.get("/archive/post/:post", getPostEmbed);
 
-app.get("/oc/:cat/:char", getOc);
-app.get("/oc-bios/:cat/:char", getOc);
+app.get("/oc/:cat/:char", getOcEmbed);
+app.get("/oc-bios/:cat/:char", getOcEmbed);
 
-app.get("/c/:collection", getCollection);
+app.get("/c/:collection", getCollectionEmbed);
 
-app.get("/t/:tag", getTag);
+app.get("/t/:tag", getTagEmbed);
 
-app.get("/archive/:tagCol", getTagOrCollection);
+app.get("/archive/:tagCol", getTagOrCollectionEmbed);
 //#endregion For the Embeds
 
 app.get("/emojis", getEmojis);
@@ -50,8 +51,8 @@ app.get("/api/changelog/:id", getChangelog);
 
 app.get("/api/chat/:id", getChat);
 
-app.get("/api/collections");
-app.get("/api/collection/:id");
+app.get("/api/collections", getCollections);
+app.get("/api/collection/:id", getCollection);
 
 app.get("/api/colors");
 

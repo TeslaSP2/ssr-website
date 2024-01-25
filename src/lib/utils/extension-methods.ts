@@ -1,3 +1,4 @@
+import { ArchivePost } from "../../interfaces/ArchivePost";
 import { LangKeyedString } from "../../interfaces/General";
 
 export const MapAsync = <T, U>(array: T[], callbackfn: (value: T, index: number, array: T[]) => Promise<U>): Promise<U[]> => {
@@ -167,6 +168,7 @@ declare global {
     checkForUnlock(): boolean;
     caesarCipher(): string;
     caesarCipher(despl: number): string;
+    translateEmojis(): {text: string, isEmoji: boolean}[];
   }
 
   interface Number {
@@ -196,6 +198,223 @@ Date.prototype.sameTime = function (as: Date): boolean {
 Array.prototype.filterAsync = async function <T>(callbackfn: (value: T, index: number, array: T[]) => Promise<boolean>): Promise<T[]> {
   const filterMap = await MapAsync(this, callbackfn);
   return this.filter((value, index) => filterMap[index]);
+}
+
+Array.prototype.search = function (this: ArchivePost[], terms: string[] | undefined, currentLang: string | undefined): ArchivePost[] {
+  let temp = this;
+
+  if(terms != undefined)
+  {
+    for(const term of terms) {
+      temp = temp.filter(p => {
+        let not = term.startsWith("-");
+        let modTerm = not ? term.substring(1).toLowerCase() : term;
+
+        if(modTerm == "")
+          return true;
+          
+        let isCommand = modTerm.includes(':') ? modTerm.split(':') : [];
+        let command = isCommand.length > 0 ? isCommand[0] : "";
+        let finalTerm = isCommand.length > 0 ? isCommand[1] : modTerm;
+
+        let wildcard = "";
+        if(finalTerm.startsWith('*') && finalTerm.endsWith('*'))
+        {
+          wildcard = "has";
+          finalTerm = finalTerm.substring(1, finalTerm.length -1).toLowerCase();
+        }
+        else if(finalTerm.startsWith('*'))
+        {
+          wildcard = "end";
+          finalTerm = finalTerm.substring(1).toLowerCase();
+        }
+        else if(finalTerm.endsWith('*'))
+        {
+          wildcard = "start";
+          finalTerm = finalTerm.substring(0, finalTerm.length -1).toLowerCase();
+        }
+
+        if(finalTerm == "")
+          return true;
+
+        let includes = true;
+        let starts = true;
+        let ends = true;
+
+        switch(command) {
+          case 'c':
+            {
+              let cat = finalTerm;
+              let isNSFW = false;
+              let isCringe = false;
+              let isScrapped = false;
+              let isMusical = false;
+              isNSFW = "nsfw" == cat || "🔞" == cat ? p.nsfw??false : true;
+              isCringe = "cringe" == cat || "🤢" == cat ? p.cringe??false : true;
+              isScrapped = "scrapped" == cat || "🗑️" == cat ? p.scrapped??false : true;
+              isMusical = "musical" == cat || "🎶" == cat ? p.musical??false : true;
+              
+              if(!not)
+                return isNSFW && isCringe && isScrapped && isMusical;
+              else
+                return !(isNSFW && isCringe && isScrapped && isMusical);
+            }
+          case 't':
+            {
+              if(p.tags == undefined)
+                return false;
+              
+              let tag = finalTerm.replace("_", " ");
+
+              includes = p.tags.filter(t => t.toLowerCase().includes(tag)).length > 0;
+              starts = p.tags.filter(t => t.toLowerCase().startsWith(tag)).length > 0;
+              ends = p.tags.filter(t => t.toLowerCase().endsWith(tag)).length > 0;
+              break;
+            }
+          case 'y':
+            {
+              let year = finalTerm;
+              let postYear = p.unlockDate.toDate().getFullYear()+"";
+
+              includes = postYear.includes(year);
+              starts = postYear.startsWith(year);
+              ends = postYear.endsWith(year);
+              break;
+            }
+          case 'date':
+            {
+              let date = finalTerm;
+                
+              let parsedSearchDate = date.toDate();
+              let parsedPostDate = p.unlockDate.toDate();          
+  
+              if(!not)
+                return parsedPostDate.sameDate(parsedSearchDate);
+              else
+                return !parsedPostDate.sameDate(parsedSearchDate);
+            }
+          case 'time':
+            {
+              let time = finalTerm;
+                
+              let parsedSearchDate = time.toDate();
+              let parsedPostDate = p.unlockDate.toDate();            
+  
+              if(!not)
+                return parsedPostDate.sameTime(parsedSearchDate);
+              else
+                return !parsedPostDate.sameTime(parsedSearchDate);
+            }
+          case 'datetime':
+            {
+              let dateTime = finalTerm.replace("T", " ");
+                
+              let parsedSearchDate = dateTime.toDate();
+              let parsedPostDate = p.unlockDate.toDate();            
+  
+              if(!not)
+                return parsedPostDate == parsedSearchDate;
+              else
+                return parsedPostDate != parsedSearchDate;
+            }
+          case 'iname':
+            {
+              includes = p.jsonName.toLowerCase().includes(finalTerm.toLowerCase());
+              starts = p.jsonName.toLowerCase().startsWith(finalTerm.toLowerCase());
+              ends = p.jsonName.toLowerCase().endsWith(finalTerm.toLowerCase());
+              break;
+            }
+          case 'id':
+            {
+              includes = p.id.toLowerCase().includes(finalTerm.toLowerCase());
+              starts = p.id.toLowerCase().startsWith(finalTerm.toLowerCase());
+              ends = p.id.toLowerCase().endsWith(finalTerm.toLowerCase());
+              break;
+            }
+          case '🔑':
+            {
+              if(finalTerm == "show")
+              {
+                includes = true;
+                starts = true;
+                ends = true;
+              }
+              else if (finalTerm == "exclusive")
+              {
+                includes = p.unlisted == true;
+                starts = p.unlisted == true;
+                ends = p.unlisted == true;
+              }
+              break;
+            }
+          default:
+            {
+              let name = "";
+              let titleLine = p.linkPart.filter(h => h.key == currentLang || (h.key != currentLang && h.key == "def")).firstOrDefault();
+              name = titleLine != null ? titleLine.str : p.linkPart[0].str;
+
+              includes = name.toLowerCase().includes(finalTerm.toLowerCase());
+              starts = name.toLowerCase().startsWith(finalTerm.toLowerCase());
+              ends = name.toLowerCase().endsWith(finalTerm.toLowerCase());
+            }
+          }
+
+          if(wildcard == "start")
+          {
+            if(!not)
+              return includes && starts && !ends;
+            else
+              return includes && !starts && ends;
+          }
+          else if(wildcard == "end")
+          {
+            if(!not)
+              return includes && !starts && ends;
+            else
+              return includes && starts && !ends;
+          }
+          else if(wildcard == "has")
+          {
+            if(!not)
+              return includes && !starts && !ends;
+            else
+              return !includes && starts && ends;
+          }
+          else
+          {
+            if(!not)
+              return includes;
+            else
+              return !includes;
+          }
+        }
+      );  
+    }
+  }
+
+  return temp;
+}
+
+Array.prototype.getTags = function (this: string[]): string[] | undefined {
+  let rawTags = this.filter(t => t.includes(":"));
+
+  let tags: string[] = [];
+
+  for (const rawTag of rawTags) {
+    let tag = rawTag.slice(rawTag.indexOf(":")+1);
+    tag = tag == '🔞' ? 'nsfw' : tag;
+    tag = tag == '🤢' ? 'cringe' : tag;
+    tag = tag == '🗑️' ? 'scrapped' : tag;
+    tag = tag == '🎶' ? 'musical' : tag;
+    
+    if(rawTag[0] != '-' && tag != '')
+      tags.push(tag.replace("_"," "));
+  }
+
+  if(tags.length > 0)
+    return tags;
+  else
+    return undefined;
 }
 
 Array.prototype.firstOrDefault = function<T>(this: Array<T>): T | null {
@@ -228,11 +447,11 @@ Array.prototype.removeAt = function<T>(this: Array<T>, index: number): Array<T> 
   return ret;
 }
 
-Array.prototype.rasterize = function<T>(this: T[]): string {
+Array.prototype.rasterize = function(this: string[]): string {
   let ret = "";
   for(let i = 0; i < this.length; i++)
   {
-    const str = this[i]+"";
+    const str = this[i];
     ret += str+(i < this.length-1 ? "\n" : "");
   }
   return ret;
@@ -393,6 +612,31 @@ String.prototype.caesarCipher = function(this: string): string {
 
 String.prototype.caesarCipher = function(this: string, despl: number = 0): string {
   return CaesarCipher(this.toUpperCase(), despl);
+}
+
+String.prototype.translateEmojis = function(this: string): {text: string, isEmoji: boolean}[] {
+  let ret: {text: string, isEmoji: boolean}[] = [];
+
+  for(const word of this.split(' '))
+  {
+    let emoji = /\p{Emoji_Presentation}/gu.test(word);
+    if(!emoji)
+    {
+      if(word.startsWith("·") && word.endsWith("·"))
+        ret.push({text: word, isEmoji: true});
+      else
+        ret.push({text: word, isEmoji: emoji});
+    }
+    else
+    {
+      for(const char of word)
+      {
+        ret.push({text: char.codePointAt(0)+"", isEmoji: emoji});
+      }
+    }
+  }
+
+  return ret;
 }
 
 Number.prototype.msToYDHMS = function(this: number): string
