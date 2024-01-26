@@ -23,6 +23,6 @@ export async function fetchTable(id: string) {
         });
         case "t": return await read<VerbTimes[]>(`abos/tables/verb-time.json`);
         case "p": return await read<LexBasicTable[]>(`abos/tables/pronouns.json`);
-        default: return await read<LexBasicTable[]>(`abos/tables/abos/tables/misc-grammar.json`);
+        default: return await read<LexBasicTable[]>(`abos/tables/misc-grammar.json`);
     }
 }
