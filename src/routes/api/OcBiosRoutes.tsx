@@ -24,7 +24,7 @@ export const getChars: Handler <
     return c.json(data);
 }
 
-export const getFAQ: Handler <
+export const getCharsQna: Handler <
 {},
 "/api/ocBios/chars/faq"
 > = async (c) => {

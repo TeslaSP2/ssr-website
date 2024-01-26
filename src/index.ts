@@ -16,9 +16,10 @@ import { getEmoji, getEmojis } from './routes/api/EmojisRoutes';
 import { getLinks } from './routes/api/LinksRoutes';
 import { getMusic } from './routes/api/MusicRoutes';
 import { getNatFiles } from './routes/api/NatRoutes';
-import { getBios, getChar, getChars, getFAQ, getOtherArtists, getOutfitCats, getOutfits } from './routes/api/OcBiosRoutes';
+import { getBios, getChar, getChars, getCharsQna, getOtherArtists, getOutfitCats, getOutfits } from './routes/api/OcBiosRoutes';
 import { getPost } from './routes/api/PostRoutes';
 import { getPricesTable } from './routes/api/PricesRoutes';
+import { getQna, getQnaByAnswerer } from './routes/api/QnARoutes';
 
 const app = new Hono();
 const port = 8787;
@@ -80,7 +81,7 @@ app.get("/api/music", getMusic);
 app.get("/api/nat/files", getNatFiles);
 
 app.get("/api/ocBios/chars/all", getChars);
-app.get("/api/ocBios/chars/faq", getFAQ);
+app.get("/api/ocBios/chars/faq", getCharsQna);
 app.get("/api/ocBios", getBios);
 app.get("/api/ocBio/outfits/categories/:set/:route", getOutfitCats);
 app.get("/api/ocBio/outfits/:set/:route", getOutfits);
@@ -91,8 +92,8 @@ app.get("/api/post/:year/:name", getPost);
 
 app.get("/api/prices/:table", getPricesTable);
 
-app.get("/api/qna/MainAnswerer/:main/:parent?");
-app.get("/api/qna/:id?");
+app.get("/api/qna/MainAnswerer/:main/:parent?", getQnaByAnswerer);
+app.get("/api/qna/:id?", getQna);
 
 app.get("/api/socialsExt");
 
