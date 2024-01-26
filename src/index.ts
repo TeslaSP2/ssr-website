@@ -16,7 +16,7 @@ import { getEmoji, getEmojis } from './routes/api/EmojisRoutes';
 import { getLinks } from './routes/api/LinksRoutes';
 import { getMusic } from './routes/api/MusicRoutes';
 import { getNatFiles } from './routes/api/NatRoutes';
-import { getBios, getChars, getFAQ, getOutfitCats } from './routes/api/OcBiosRoutes';
+import { getBios, getChar, getChars, getFAQ, getOtherArtists, getOutfitCats, getOutfits } from './routes/api/OcBiosRoutes';
 
 const app = new Hono();
 const port = 8787;
@@ -81,10 +81,9 @@ app.get("/api/ocBios/chars/all", getChars);
 app.get("/api/ocBios/chars/faq", getFAQ);
 app.get("/api/ocBios", getBios);
 app.get("/api/ocBio/outfits/categories/:set/:route", getOutfitCats);
-app.get("/api/ocBio/outfits/:set/:route");
-app.get("/api/ocBio/otherArtists/:set/:route");
-app.get("/api/ocBio/char/:bio/:source/:oc?");
-app.get("/api/ocBio/:route/:parent?");
+app.get("/api/ocBio/outfits/:set/:route", getOutfits);
+app.get("/api/ocBio/otherArtists/:set/:route", getOtherArtists);
+app.get("/api/ocBio/char/:oc", getChar);
 
 app.get("/api/post/:year/:name");
 
