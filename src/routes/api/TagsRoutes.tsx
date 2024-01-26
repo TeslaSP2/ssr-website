@@ -10,7 +10,7 @@ export const getTags: Handler <
 > = async (c) => {
     const lang = c.req.query('lang');
     const tags = c.req.queries('tag');
-    const data = await fetchTags(tags);
+    const data = await fetchTags(tags, lang??"en");
     return c.json(data);
 }
 
@@ -28,6 +28,7 @@ export const getTag: Handler <
 "/api/tag/:tag"
 > = async (c) => {
     const { tag } = c.req.param();
-    const data = await fetchTag(tag);
+    const lang = c.req.query('lang');
+    const data = await fetchTag(tag, lang??"en");
     return c.json(data);
 }

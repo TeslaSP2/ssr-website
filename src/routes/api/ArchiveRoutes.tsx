@@ -30,8 +30,8 @@ export const getArchiveLastPosts: Handler <
 
     let options: { startDate?: Date; endDate?: Date, random?: boolean, uncut?: boolean} | undefined;
 
-    if(startDate != undefined) {if(options == undefined) options = {}; if(options != undefined) options.startDate = startDate.toDate();}
-    if(endDate != undefined) {if(options == undefined) options = {}; if(options != undefined) options.endDate = endDate.toDate();}
+    if(startDate != undefined) {if(options == undefined) options = {}; if(options != undefined) options.startDate = startDate.replaceAll('A', '/').replaceAll('B', ':').replace('T', ' ').toDate();}
+    if(endDate != undefined) {if(options == undefined) options = {}; if(options != undefined) options.endDate = endDate.replaceAll('A', '/').replaceAll('B', ':').replace('T', ' ').toDate();}
     if(random != undefined) {if(options == undefined) options = {}; if(options != undefined) options.random = random == "true";}
     if(uncut != undefined) {if(options == undefined) options = {}; if(options != undefined) options.uncut = uncut == "true";}
 
