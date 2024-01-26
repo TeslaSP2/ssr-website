@@ -3,6 +3,7 @@ import { Handler } from "hono";
 import { fetchAnnouncements } from "../../lib/api/announcements/fetchAnnouncements";
 import { fetchAllAnnouncements } from "../../lib/api/announcements/fetchAllAnnouncements";
 import { fetchAnnouncement } from "../../lib/api/announcements/fetchAnnouncement";
+import { fetchAnnouncementsGeneral } from "../../lib/api/announcements/fetchAnnouncementsGeneral";
 
 export const getAnnouncements: Handler <
 {},
@@ -10,6 +11,14 @@ export const getAnnouncements: Handler <
 > = async (c) => {
     const noPinned = c.req.query('noPinned');
     const data = await fetchAnnouncements(noPinned == 'true');
+    return c.json(data);
+}
+
+export const getAnnouncementsGeneral: Handler <
+{},
+"/api/announcements/general"
+> = async (c) => {
+    const data = await fetchAnnouncementsGeneral();
     return c.json(data);
 }
 

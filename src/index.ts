@@ -5,7 +5,7 @@ import { getCollectionEmbed, getOcEmbed, getPostEmbed, getTagEmbed, getTagOrColl
 import { getEmojisTable } from './routes/utils/getEmojis';
 import { getAbosFiles, getAbosTable } from './routes/api/AbosRoutes';
 import { getAmeDiary, getAmeFiles } from './routes/api/AmeRoutes';
-import { getAllAnnouncements, getAnnouncement, getAnnouncements } from './routes/api/AnnouncementsRoutes';
+import { getAllAnnouncements, getAnnouncement, getAnnouncements, getAnnouncementsGeneral } from './routes/api/AnnouncementsRoutes';
 import { getArchive, getArchiveLastPosts, getArchivePost } from './routes/api/ArchiveRoutes';
 import { getChangelog, getChangelogs } from './routes/api/ChangelogsRoutes';
 import { getChat } from './routes/api/ChatRoutes';
@@ -53,6 +53,7 @@ app.get("/api/ame/files", getAmeFiles);
 app.get("/api/ame/diary", getAmeDiary);
 
 app.get("/api/announcements/all", getAllAnnouncements);
+app.get("/api/announcements/general", getAnnouncementsGeneral);
 app.get("/api/announcements", getAnnouncements);
 app.get("/api/announcement/:id", getAnnouncement);
 
