@@ -20,6 +20,7 @@ import { getBios, getChar, getChars, getCharsQna, getOtherArtists, getOutfitCats
 import { getPost } from './routes/api/PostRoutes';
 import { getPricesTable } from './routes/api/PricesRoutes';
 import { getQna, getQnaByAnswerer } from './routes/api/QnARoutes';
+import { getSocialsExt } from './routes/api/SocialsExtRoutes';
 
 const app = new Hono();
 const port = 8787;
@@ -95,7 +96,7 @@ app.get("/api/prices/:table", getPricesTable);
 app.get("/api/qna/MainAnswerer/:main/:parent?", getQnaByAnswerer);
 app.get("/api/qna/:id?", getQna);
 
-app.get("/api/socialsExt");
+app.get("/api/socialsExt", getSocialsExt);
 
 app.get("/api/tags");
 app.get("/api/tags/codes");

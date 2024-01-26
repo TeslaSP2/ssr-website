@@ -2,7 +2,7 @@ import { Handler } from "hono";
 
 import { fetchSocialsExt } from "../../lib/api/socialsExt/fetchSocialsExt";
 
-export const getQna: Handler <
+export const getSocialsExt: Handler <
 {},
 "/api/socialsExt"
 > = async (c) => {
