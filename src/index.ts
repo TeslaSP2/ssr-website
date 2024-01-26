@@ -24,7 +24,6 @@ import { getSocialsExt } from './routes/api/SocialsExtRoutes';
 import { getTags, getTagCodes, getTag } from './routes/api/TagsRoutes';
 
 const app = new Hono();
-const port = 8787;
 
 app.get('/', async (c) => {
   return c.redirect('https://teslasp2.com')
@@ -106,5 +105,5 @@ app.get("/api/tag/:tag", getTag);
 
 serve({
   fetch: app.fetch,
-  port
+  port: 8787
 })
