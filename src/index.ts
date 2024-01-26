@@ -18,6 +18,7 @@ import { getMusic } from './routes/api/MusicRoutes';
 import { getNatFiles } from './routes/api/NatRoutes';
 import { getBios, getChar, getChars, getFAQ, getOtherArtists, getOutfitCats, getOutfits } from './routes/api/OcBiosRoutes';
 import { getPost } from './routes/api/PostRoutes';
+import { getPricesTable } from './routes/api/PricesRoutes';
 
 const app = new Hono();
 const port = 8787;
@@ -88,7 +89,7 @@ app.get("/api/ocBio/char/:oc", getChar);
 
 app.get("/api/post/:year/:name", getPost);
 
-app.get("/api/prices/:table");
+app.get("/api/prices/:table", getPricesTable);
 
 app.get("/api/qna/MainAnswerer/:main/:parent?");
 app.get("/api/qna/:id?");

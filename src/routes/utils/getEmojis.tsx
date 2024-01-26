@@ -1,4 +1,5 @@
 import { Handler } from "hono";
+import { read } from "../../lib/utils/Dependency";
 
 interface MtntEmoji {
     cat: string;
@@ -34,7 +35,7 @@ async function getRemoteEmojis() {
         </thead>
         <tbody>`;
 
-    let emojis = (await (await fetch('https://files.teslasp2.com/assets/jsons/mtnt_data.json')).json() as MtntEmoji[]);
+    let emojis = await read<MtntEmoji[]>('mtnt_data.json');
 
     for(const emoji of emojis)
     {

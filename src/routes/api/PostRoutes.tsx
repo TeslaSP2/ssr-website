@@ -1,4 +1,5 @@
 import { Handler } from "hono";
+
 import { fetchPost } from "../../lib/api/posts/fetchPost";
 
 export const getPost: Handler <
