@@ -1,4 +1,6 @@
 import { Hono } from 'hono'
+import { serve } from '@hono/node-server'
+
 import { getCollectionEmbed, getOcEmbed, getPostEmbed, getTagEmbed, getTagOrCollectionEmbed } from './routes/embed/EmbedRoutes';
 import { getEmojisTable } from './routes/utils/getEmojis';
 import { getAbosFiles, getAbosTable } from './routes/api/AbosRoutes';
@@ -16,7 +18,8 @@ import { getMusic } from './routes/api/MusicRoutes';
 import { getNatFiles } from './routes/api/NatRoutes';
 import { getBios, getChars, getFAQ, getOutfitCats } from './routes/api/OcBiosRoutes';
 
-const app = new Hono()
+const app = new Hono();
+const port = 8787;
 
 app.get('/', async (c) => {
   return c.redirect('https://teslasp2.com')
@@ -98,4 +101,7 @@ app.get("/api/tags/bios");
 app.get("/api/tag/:tag");
 //#endregion API
 
-export default app
+serve({
+  fetch: app.fetch,
+  port
+})

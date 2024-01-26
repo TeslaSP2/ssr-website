@@ -1,5 +1,6 @@
 import { ArchivePost } from "../../../interfaces/ArchivePost";
+import { read } from "../../utils/Dependency";
 
 export async function fetchArchivePost(id: string) {
-    return ((await (await fetch(`https://files.teslasp2.com/assets/jsons/archive-posts.json`)).json()) as ArchivePost[]).filter(p => p.id == id).firstOrDefault();
+    return (await read<ArchivePost[]>(`archive-posts.json`)).filter(p => p.id == id).firstOrDefault();
 }

@@ -1,7 +1,8 @@
 import { Char, SetDNI } from "../../../interfaces/Id";
+import { read } from "../../utils/Dependency";
 
 export async function fetchChars() {
-    let Bios = ((await (await fetch(`https://files.teslasp2.com/assets/jsons/oc-bios.json`)).json()) as SetDNI[]);
+    let Bios = await read<SetDNI[]>(`oc-bios.json`);
 
     let chars: Char[] = [];
 
@@ -13,7 +14,7 @@ export async function fetchChars() {
         {
           for(const alt of dni.alts)
           {
-            chars.push(((await (await fetch(`https://files.teslasp2.com/assets/jsons/oc-bios/chars/${dni.oc}/${alt.source}.json`)).json()) as Char));
+            chars.push(await read<Char>(`oc-bios/chars/${dni.oc}/${alt.source}.json`));
           }
         }
       }

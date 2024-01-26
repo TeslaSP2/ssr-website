@@ -1,11 +1,12 @@
 import { ArchivePost } from "../../../interfaces/ArchivePost";
 import { Post } from "../../../interfaces/Post";
+import { read } from "../../utils/Dependency";
 import { RandomInt } from "../../utils/extension-methods";
 
 export async function fetchArchiveLastPosts(num: number, options?: { startDate?: Date; endDate?: Date, random?: boolean, uncut?: boolean}) {
   console.log(num, options)
 
-  let allPosts = ((await (await fetch(`https://files.teslasp2.com/assets/jsons/archive-posts.json`)).json()) as ArchivePost[]).filter(p => p.unlockDate.checkForUnlock() && ((p.unlisted??false) == false));
+  let allPosts = (await read<ArchivePost[]>(`archive-posts.json`)).filter(p => p.unlockDate.checkForUnlock() && ((p.unlisted??false) == false));
 
   if(options != undefined)
   {  
@@ -36,7 +37,7 @@ export async function fetchArchiveLastPosts(num: number, options?: { startDate?:
           let p = allPosts[i];
           if(p.jsonName != undefined)
           {
-            const post = (await (await fetch(`https://files.teslasp2.com/assets/jsons/posts/${p.unlockDate.toDate().getFullYear()}/${p.jsonName}.json`)).json()) as Post;
+            const post = await read<Post>(`posts/${p.unlockDate.toDate().getFullYear()}/${p.jsonName}.json`);
             ret = post.censoredFeaturedImage == undefined && post.featuredImage != ''
           }
           else ret = p.showInRecent;

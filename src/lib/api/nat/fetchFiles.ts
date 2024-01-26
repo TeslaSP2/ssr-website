@@ -1,11 +1,12 @@
 import { FileNat } from "../../../interfaces/FileNat";
+import { read } from "../../utils/Dependency";
 
 export async function fetchFiles() {
     let files: {Id: string, File: FileNat}[] = [];
-    let filesRef = ((await (await fetch(`https://files.teslasp2.com/assets/jsons/nat-pc/files-repo.json`)).json()) as { Id: string }[]);
+    let filesRef = await read<{ Id: string }[]>(`nat-pc/files-repo.json`);
     for(const fileRef of filesRef)
     {
-      files.push({Id: fileRef.Id, File: ((await (await fetch(`https://files.teslasp2.com/assets/jsons/nat-pc/files/${fileRef.Id}.json`)).json()) as FileNat)});
+      files.push({Id: fileRef.Id, File: await read<FileNat>(`nat-pc/files/${fileRef.Id}.json`)});
     }
 
     return files;

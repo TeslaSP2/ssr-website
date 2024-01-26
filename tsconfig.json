@@ -9,7 +9,6 @@
       "esnext"
     ],
     "types": [
-      "@cloudflare/workers-types",
       "@types/node"
     ],
     "jsx": "react-jsx",

@@ -1,5 +1,6 @@
 import { Song } from "../../../interfaces/Song";
+import { read } from "../../utils/Dependency";
 
 export async function fetchMusic(...id: string[]) {
-    return ((await (await fetch(`https://files.teslasp2.com/assets/jsons/songs.json`)).json()) as Song[]).filter(x=> id.includes(x.id));
+    return (await read<Song[]>(`songs.json`)).filter(x=> id.includes(x.id));
 }

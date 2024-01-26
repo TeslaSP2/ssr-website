@@ -1,7 +1,8 @@
 import { LangKeyedString } from "../../../interfaces/General";
+import { read } from "../../utils/Dependency";
 
 export async function fetchChat(chatJson: string) {
-    return ((await (await fetch(`https://files.teslasp2.com/assets/jsons/chats/${chatJson}.json`)).json()) as Chat);
+    return await read<Chat>(`chats/${chatJson}.json`);
 }
 
 export interface Chat {

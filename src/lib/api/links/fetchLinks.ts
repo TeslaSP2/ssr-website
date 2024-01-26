@@ -1,5 +1,6 @@
 import { OutLink } from "../../../interfaces/General";
+import { read } from "../../utils/Dependency";
 
 export async function fetchLinks() {
-    return ((await (await fetch(`https://files.teslasp2.com/assets/jsons/links-gen.json`)).json()) as OutLink[]);
+    return await read<OutLink[]>(`links-gen.json`);
 }

@@ -1,8 +1,9 @@
 import { Iemoji, MtntEmoji } from "../../../interfaces/IEmoji";
+import { read } from "../../utils/Dependency";
 
 export async function fetchEmoji(shortCode: string) {
-    let iemoji: Iemoji | undefined = ((await (await fetch(`https://files.teslasp2.com/assets/jsons/iemojis.json`)).json()) as Iemoji[]).filter(e => e.emoji == shortCode).firstOrDefault();
-    let mtntemoji = ((await (await fetch(`https://files.teslasp2.com/assets/jsons/mtnt_data.json`)).json()) as MtntEmoji[]).filter(e => e.short == shortCode).firstOrDefault();
+    let iemoji: Iemoji | undefined = (await read<Iemoji[]>(`iemojis.json`)).filter(e => e.emoji == shortCode).firstOrDefault();
+    let mtntemoji = (await read<MtntEmoji[]>(`mtnt_data.json`)).filter(e => e.short == shortCode).firstOrDefault();
 
     if(mtntemoji != null)
     {
@@ -10,7 +11,7 @@ export async function fetchEmoji(shortCode: string) {
       return {src: mtntemoji.src, fallback: iemoji?.fallback??'❔', tooltip: iemoji != undefined ? iemoji.tooltip : mtntemoji.desc, link: iemoji?.link, color: iemoji?.color };
     }
     else {
-      let mtntemojiCode = ((await (await fetch(`https://files.teslasp2.com/assets/jsons/mtnt_data.json`)).json()) as MtntEmoji[]).filter(e => e.code.includes(+shortCode)).firstOrDefault();
+      let mtntemojiCode = (await read<MtntEmoji[]>(`mtnt_data.json`)).filter(e => e.code.includes(+shortCode)).firstOrDefault();
       if(mtntemojiCode != null)
       {
         let trueSrc = mtntemojiCode.src.substring(0, mtntemojiCode.src.lastIndexOf('/')+1)+ mtntemojiCode.short+".webp";

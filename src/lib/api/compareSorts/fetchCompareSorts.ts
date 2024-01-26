@@ -1,7 +1,8 @@
 import { LangKeyedString } from "../../../interfaces/General";
+import { read } from "../../utils/Dependency";
 
 export async function fetchCompareSorts() {
-    return ((await (await fetch(`https://files.teslasp2.com/assets/jsons/oc-bios/sorts.json`)).json()) as Sort[]);
+    return await read<Sort[]>(`oc-bios/sorts.json`);
 }
 
 export interface Sort {

@@ -1,5 +1,6 @@
 import { Palette } from "../../../interfaces/Palette";
+import { read } from "../../utils/Dependency";
 
 export async function fetchColors() {
-    return ((await (await fetch(`https://files.teslasp2.com/assets/jsons/colorTags.json`)).json()) as Palette[]);
+    return await read<Palette[]>(`colorTags.json`);
 }

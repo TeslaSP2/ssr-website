@@ -1,6 +1,12 @@
 import { ArchivePost } from "../../interfaces/ArchivePost";
 import { PaginationFilter } from "../../interfaces/PaginationFilter";
 import { Post } from "../../interfaces/Post";
+import { promises } from 'node:fs'
+
+export async function read<T>(path: string) {
+  let r = await promises.readFile(`../website-data/jsons/${path}`, { encoding: 'utf8' });
+  return JSON.parse(r) as T;
+}
 
 export function getFeaturedStuffFromPost(archivePost: ArchivePost, post: Post, lang: string = "en") {
   let year = archivePost.unlockDate.toDate().getFullYear() + ""
@@ -52,7 +58,7 @@ export async function getPosts(paginationFilter?: PaginationFilter) {
     hasScrapped: true,
     hasMusical: true
   }
-  let data = ((await (await fetch(`https://files.teslasp2.com/assets/jsons/archive-posts.json`)).json()) as ArchivePost[])
+  let data = await read<ArchivePost[]>(`archive-posts.json`);
   if (paginationFilter == undefined) {
     retPag.data = data.sort((p1, p2) => {
       return p1.unlockDate.toDate() > p2.unlockDate.toDate() ? -1 : 1;
@@ -176,7 +182,7 @@ export async function hasSFW(p: ArchivePost) {
   if (p.jsonName == undefined)
     return !p.nsfw;
   else {
-    let post = (await (await fetch(`https://files.teslasp2.com/assets/jsons/posts/${p.unlockDate.toDate().getFullYear()}/${p.jsonName}.json`)).json()) as Post;
+    let post = await read<Post>(`posts/${p.unlockDate.toDate().getFullYear()}/${p.jsonName}.json`);
 
     if (post.allNsfw == true)
       return false;

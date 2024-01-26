@@ -1,11 +1,12 @@
 import { AbosFiles } from "../../../interfaces/AbosFiles";
+import { read } from "../../utils/Dependency";
 
 export async function fetchFiles() {
     let files: {Id:string; File:AbosFiles}[] = [];
-    let filesRef = ((await (await fetch(`https://files.teslasp2.com/assets/jsons/abos/abos-files.json`)).json()) as { Id: string }[]);
+    let filesRef = await read<{ Id: string }[]>(`abos-files.json`);
     for(const fileRef of filesRef)
-    { 
-        files.push({Id: fileRef.Id, File: ((await (await fetch(`https://files.teslasp2.com/assets/jsons/abos/files/${fileRef.Id}.json`)).json()) as AbosFiles)});
+    {
+        files.push({Id: fileRef.Id, File: await read<AbosFiles>(`abos/files/${fileRef.Id}.json`)});
     }
 
     return files;

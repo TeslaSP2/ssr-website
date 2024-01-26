@@ -1,5 +1,6 @@
 import { SetDNI } from "../../../interfaces/Id";
+import { read } from "../../utils/Dependency";
 
 export async function fetchBios() {
-    return ((await (await fetch(`https://files.teslasp2.com/assets/jsons/oc-bios.json`)).json()) as SetDNI[]);
+    return await read<SetDNI[]>(`oc-bios.json`);
 }

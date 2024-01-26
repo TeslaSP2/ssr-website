@@ -1,5 +1,6 @@
 import { AmeDiaryNote } from "../../../interfaces/AmeDiaryNote";
+import { read } from "../../utils/Dependency";
 
 export async function fetchDiary() {
-    return ((await (await fetch(`https://files.teslasp2.com/assets/jsons/diary/diary-entries.json`)).json()) as AmeDiaryNote[]);
+    return await read<AmeDiaryNote[]>(`diary/diary-entries.json`);
 }

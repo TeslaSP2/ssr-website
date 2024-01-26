@@ -1,4 +1,5 @@
 import { Char, DNI, Outfit, OutfitCat, SetDNI } from "../../../interfaces/Id";
+import { read } from "../../utils/Dependency";
 
 export async function fetchOutfitCats(set: number, route:string) { 
     let ids = await get(set);
@@ -7,19 +8,19 @@ export async function fetchOutfitCats(set: number, route:string) {
     let charDNI = ids.filter(c => c.alts.filter(a => a.source == route).length > 0).firstOrDefault();
 
     try {
-      let char = ((await (await fetch(`https://files.teslasp2.com/assets/jsons/oc-bios/chars/${charDNI.oc}/${charDNI.alts.filter(a => a.source == route).firstOrDefault().source}.json`)).json()) as Char);
-      let outfitsChar =((await (await fetch(`https://files.teslasp2.com/assets/jsons/oc-bios/outfits/${char.route}.json`)).json()) as {categories?: OutfitCat[], outfits: Outfit[]}).categories;
+      let char = await read<Char>(`oc-bios/chars/${charDNI.oc}/${charDNI.alts.filter(a => a.source == route).firstOrDefault().source}.json`);
+      let outfitsChar = (await read<{categories?: OutfitCat[], outfits: Outfit[]}>(`oc-bios/outfits/${char.route}.json`)).categories;
       if(outfitsChar != undefined)
         outfitsCats.push(...outfitsChar);
-    } catch {
-      
+    } catch (err) {
+      console.log(err);
     }
     return outfitsCats;
     
 }
 
 async function get(set:number) {
-    let Bios = ((await (await fetch(`https://files.teslasp2.com/assets/jsons/oc-bios.json`)).json()) as SetDNI[]);
+    let Bios = await read<SetDNI[]>(`oc-bios.json`);
     if(set == undefined)
       set = 0;
     

@@ -1,5 +1,6 @@
 import { MtntEmoji } from "../../../interfaces/IEmoji";
+import { read } from "../../utils/Dependency";
 
 export async function fetchEmojis() {
-    return ((await (await fetch(`https://files.teslasp2.com/assets/jsons/mtnt_data.json`)).json()) as MtntEmoji[]);
+    return await read<MtntEmoji[]>(`mtnt_data.json`);
 }
