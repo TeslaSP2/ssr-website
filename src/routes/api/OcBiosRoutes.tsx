@@ -7,6 +7,7 @@ import { fetchOutfitCats } from "../../lib/api/ocBios/fetchOutfitCats";
 import { fetchOutfits } from "../../lib/api/ocBios/fetchOutfits";
 import { fetchOtherArtists } from "../../lib/api/ocBios/fetchOtherArtists";
 import { fetchChar } from "../../lib/api/ocBios/fetchChar";
+import { fetchCharFull } from "../../lib/api/ocBios/fetchCharFull";
 
 export const getBios: Handler <
 {},
@@ -65,5 +66,14 @@ export const getChar: Handler <
 > = async (c) => {
     const { oc } = c.req.param();
     const data = await fetchChar(oc);
+    return c.json(data);
+}
+
+export const getFullChar: Handler <
+{},
+"/api/char/full/:oc"
+> = async (c) => {
+    const { oc } = c.req.param();
+    const data = await fetchCharFull(oc);
     return c.json(data);
 }
