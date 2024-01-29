@@ -22,6 +22,7 @@ import { getPricesTable } from './routes/api/PricesRoutes';
 import { getQna, getQnaByAnswerer } from './routes/api/QnARoutes';
 import { getSocialsExt } from './routes/api/SocialsExtRoutes';
 import { getTags, getTagCodes, getTag } from './routes/api/TagsRoutes';
+import { getMisc } from './routes/utils/getMisc';
 
 const app = new Hono();
 
@@ -102,6 +103,8 @@ app.get("/api/socialsExt", getSocialsExt);
 app.get("/api/tags", getTags);
 app.get("/api/tags/codes", getTagCodes);
 app.get("/api/tag/:tag", getTag);
+
+app.get("/api/misc/:key", getMisc);
 //#endregion API
 
 serve({
