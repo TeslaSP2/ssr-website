@@ -22,13 +22,10 @@ async function getSet(oc: string) {
     {
       for(const dni of set.DNIs)
       {
-        if(!dni.hidden)
+        for(const alt of dni.alts)
         {
-          for(const alt of dni.alts)
-          {
-            if(alt.source == oc)
-                return Bios.indexOf(set);
-          }
+          if(alt.source == oc)
+              return Bios.indexOf(set);
         }
       }
     }
