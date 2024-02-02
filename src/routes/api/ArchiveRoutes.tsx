@@ -3,6 +3,7 @@ import { Handler } from "hono";
 import { fetchArchive } from "../../lib/api/archive/fetchArchive";
 import { fetchArchivePost } from "../../lib/api/archive/fetchArchivePost";
 import { fetchArchiveLastPosts } from "../../lib/api/archive/fetchArchiveLastPosts";
+import { fetchNextPost } from "../../lib/api/archive/fetchNextPost";
 
 export const getArchive: Handler <
 {},
@@ -38,3 +39,11 @@ export const getArchiveLastPosts: Handler <
     const data = await fetchArchiveLastPosts(+x, options);
     return c.json(data);
 } 
+
+export const getNextPost: Handler <
+{},
+"/api/archive/nextPost"
+> = async (c) => {
+    const data = await fetchNextPost();
+    return c.json(data);
+}

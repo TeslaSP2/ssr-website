@@ -31,6 +31,7 @@ export const getOcEmbed: Handler <
     const { cat, char } = c.req.param();
     const lang = c.req.query('lang');
     const data = await fetchOc(char, lang??"en");
+    console.log(data);
 
     return c.html(
         <Oc

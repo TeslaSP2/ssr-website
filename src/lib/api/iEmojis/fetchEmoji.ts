@@ -8,14 +8,14 @@ export async function fetchEmoji(shortCode: string) {
     if(mtntemoji != null)
     {
       let trueSrc = mtntemoji.src.substring(0, mtntemoji.src.lastIndexOf('/')+1)+ mtntemoji.short+".webp";
-      return {src: mtntemoji.src, fallback: iemoji?.fallback??'❔', tooltip: iemoji != undefined ? iemoji.tooltip : mtntemoji.desc, link: iemoji?.link, color: iemoji?.color };
+      return {src: trueSrc, fallback: iemoji?.fallback??'❔', tooltip: iemoji != undefined ? iemoji.tooltip : mtntemoji.desc, link: iemoji?.link, color: iemoji?.color };
     }
     else {
       let mtntemojiCode = (await read<MtntEmoji[]>(`mtnt_data.json`)).filter(e => e.code.includes(+shortCode)).firstOrDefault();
       if(mtntemojiCode != null)
       {
         let trueSrc = mtntemojiCode.src.substring(0, mtntemojiCode.src.lastIndexOf('/')+1)+ mtntemojiCode.short+".webp";
-        return {src: mtntemojiCode.src, fallback: iemoji?.fallback??'❔', tooltip: iemoji != undefined ? iemoji.tooltip : mtntemojiCode.desc, link: iemoji?.link, color: iemoji?.color };
+        return {src: trueSrc, fallback: iemoji?.fallback??'❔', tooltip: iemoji != undefined ? iemoji.tooltip : mtntemojiCode.desc, link: iemoji?.link, color: iemoji?.color };
       }
       else return null;
     }
