@@ -1,6 +1,6 @@
 import { Collection } from "../../../interfaces/Collection";
 import { PaginationFilter } from "../../../interfaces/PaginationFilter";
-import { getPostLength, read } from "../../utils/Dependency";
+import { getPostLength, readAsObject } from "../../utils/Dependency";
 
 export async function fetchCollections(cringe?: boolean, nsfw?:boolean, scrapped?: boolean) {
     if(cringe == undefined)
@@ -12,7 +12,7 @@ export async function fetchCollections(cringe?: boolean, nsfw?:boolean, scrapped
     if(scrapped == undefined)
         scrapped = false
 
-    let collections = await read<Collection[]>(`post-collections.json`);
+    let collections = await readAsObject<Collection[]>(`post-collections.json`);
     let ret: Collection[] = [];
     for(const collection of collections)
     {

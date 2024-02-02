@@ -1,5 +1,5 @@
 import { Handler } from "hono";
-import { read } from "../../lib/utils/Dependency";
+import { readAsObject } from "../../lib/utils/Dependency";
 
 interface MtntEmoji {
     cat: string;
@@ -35,7 +35,7 @@ async function getRemoteEmojis() {
         </thead>
         <tbody>`;
 
-    let emojis = await read<MtntEmoji[]>('mtnt_data.json');
+    let emojis = await readAsObject<MtntEmoji[]>('mtnt_data.json');
 
     for(const emoji of emojis)
     {

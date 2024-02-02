@@ -1,6 +1,6 @@
 import { Tag } from "../../../interfaces/Tag";
-import { read } from "../../utils/Dependency";
+import { readAsObject } from "../../utils/Dependency";
 
 export async function fetchTag(tag: string) {
-    return (await read<Tag[]>('tags.json')).filter(t => t.code == tag).firstOrDefault();
+    return (await readAsObject<Tag[]>('tags.json')).filter(t => t.code == tag).firstOrDefault();
 }

@@ -1,6 +1,6 @@
 import { MtntEmoji } from "../../../interfaces/IEmoji";
-import { read } from "../../utils/Dependency";
+import { readAsObject } from "../../utils/Dependency";
 
 export async function fetchEmojis() {
-    return await read<MtntEmoji[]>(`mtnt_data.json`);
+    return await readAsObject<MtntEmoji[]>(`mtnt_data.json`);
 }

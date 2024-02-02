@@ -6,7 +6,7 @@ import { getEmojisTable } from './routes/utils/getEmojis';
 import { getAbosFiles, getAbosTable } from './routes/api/AbosRoutes';
 import { getAmeDiary, getAmeFiles } from './routes/api/AmeRoutes';
 import { getAllAnnouncements, getAnnouncement, getAnnouncements, getAnnouncementsGeneral } from './routes/api/AnnouncementsRoutes';
-import { getArchive, getArchiveLastPosts, getArchivePost } from './routes/api/ArchiveRoutes';
+import { getArchive, getArchiveLastPosts, getArchivePost, getNextPost } from './routes/api/ArchiveRoutes';
 import { getChangelog, getChangelogs } from './routes/api/ChangelogsRoutes';
 import { getChat } from './routes/api/ChatRoutes';
 import { getCollection, getCollections } from './routes/api/CollectionsRoutes';
@@ -61,6 +61,7 @@ app.get("/api/announcement/:id", getAnnouncement);
 app.get("/api/archive", getArchive);
 app.get("/api/archive/post/:id", getArchivePost);
 app.get("/api/archive/last/:x/posts", getArchiveLastPosts);
+app.get("/api/archive/nextPost", getNextPost);
 
 app.get("/api/changelogs", getChangelogs);
 app.get("/api/changelog/:id", getChangelog);
