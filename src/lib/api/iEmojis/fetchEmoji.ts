@@ -1,5 +1,5 @@
 import { Iemoji, MtntEmoji } from "../../../interfaces/IEmoji";
-import { read, readAsObject } from "../../utils/Dependency";
+import { del, read, readAsObject } from "../../utils/Dependency";
 import sharp from "sharp";
 
 export async function fetchEmoji(shortCode: string, size: number = 0) {
@@ -12,9 +12,12 @@ export async function fetchEmoji(shortCode: string, size: number = 0) {
       if(size != 0)
       {
         let tempPath = './temp.webp';
-        //let res = await sharp(await read(`https://files.teslasp2.com/assets/mutant-standard/${trueSrc}`)).resize(size,size,{fit: 'contain'}).webp().toFile(tempPath);
+        let readF = await read(`../files/assets/mutant-standard/${trueSrc}`);
+        await sharp(readF).resize(size,size,{fit: 'contain'}).webp().toFile(tempPath);
+        let b64 = 'data:image/webp;base64,'+await read(tempPath, 'base64');
+        await del(tempPath);
 
-        return {src: trueSrc, fallback: iemoji?.fallback??'❔', tooltip: iemoji != undefined ? iemoji.tooltip : mtntemoji.desc, link: iemoji?.link, color: iemoji?.color };
+        return {src: b64, fallback: iemoji?.fallback??'❔', tooltip: iemoji != undefined ? iemoji.tooltip : mtntemoji.desc, link: iemoji?.link, color: iemoji?.color };
       }
       else
         return {src: trueSrc, fallback: iemoji?.fallback??'❔', tooltip: iemoji != undefined ? iemoji.tooltip : mtntemoji.desc, link: iemoji?.link, color: iemoji?.color };
@@ -26,7 +29,13 @@ export async function fetchEmoji(shortCode: string, size: number = 0) {
         let trueSrc = mtntemojiCode.src.substring(0, mtntemojiCode.src.lastIndexOf('/')+1)+ mtntemojiCode.short+".webp";
         if(size != 0)
         {
-
+          let tempPath = './temp.webp';
+          let readF = await read(`../files/assets/mutant-standard/${trueSrc}`);
+          await sharp(readF).resize(size,size,{fit: 'contain'}).webp().toFile(tempPath);
+          let b64 = 'data:image/webp;base64,'+await read(tempPath, 'base64');
+          await del(tempPath);
+  
+          return {src: b64, fallback: iemoji?.fallback??'❔', tooltip: iemoji != undefined ? iemoji.tooltip : mtntemojiCode.desc, link: iemoji?.link, color: iemoji?.color };
         }
         else
           return {src: trueSrc, fallback: iemoji?.fallback??'❔', tooltip: iemoji != undefined ? iemoji.tooltip : mtntemojiCode.desc, link: iemoji?.link, color: iemoji?.color };

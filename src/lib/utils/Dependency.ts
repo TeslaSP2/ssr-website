@@ -8,8 +8,12 @@ export async function readAsObject<T>(path: string) {
   return JSON.parse(r) as T;
 }
 
-export async function read(path: string) {
-  return await promises.readFile(`../website-data/jsons/${path}`);
+export async function read(path: string, encoding?: BufferEncoding) {
+  return await promises.readFile(`${path}`, { encoding: encoding });
+}
+
+export async function del(path: string) {
+  return await promises.unlink(`${path}`);
 }
 
 export function getFeaturedStuffFromPost(archivePost: ArchivePost, post: Post, lang: string = "en") {
