@@ -1,5 +1,5 @@
 import { SetDNI } from "../../../interfaces/Id";
-import { read } from "../../utils/Dependency";
+import { readAsObject } from "../../utils/Dependency";
 import { fetchQnaByAnswerer } from "../qna/fetchQnaByAnswerer";
 import { fetchOtherArtists } from "./fetchOtherArtists";
 import { fetchOutfitCats } from "./fetchOutfitCats";
@@ -16,7 +16,7 @@ export async function fetchCharFull(oc: string) {
 }
 
 async function getSet(oc: string) {
-    let Bios = await read<SetDNI[]>(`oc-bios.json`);
+    let Bios = await readAsObject<SetDNI[]>(`oc-bios.json`);
 
     for(const set of Bios)
     {

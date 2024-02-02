@@ -5,6 +5,7 @@
   "dependencies": {
     "@hono/node-server": "^1.4.1",
     "hono": "^3.12.7",
+    "sharp": "^0.33.2",
     "validator": "^13.11.0"
   },
   "devDependencies": {

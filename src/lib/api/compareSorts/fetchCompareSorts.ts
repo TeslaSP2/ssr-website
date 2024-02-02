@@ -1,8 +1,8 @@
 import { LangKeyedString } from "../../../interfaces/General";
-import { read } from "../../utils/Dependency";
+import { readAsObject } from "../../utils/Dependency";
 
 export async function fetchCompareSorts() {
-    return await read<Sort[]>(`oc-bios/sorts.json`);
+    return await readAsObject<Sort[]>(`oc-bios/sorts.json`);
 }
 
 export interface Sort {

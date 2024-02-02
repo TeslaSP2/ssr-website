@@ -16,6 +16,7 @@ export const getEmoji: Handler <
 "/api/iEmojis/:shortCode"
 > = async (c) => {
     const { shortCode } = c.req.param();
-    const data = await fetchEmoji(shortCode);
+    const size = c.req.query('size');
+    const data = await fetchEmoji(shortCode, size == undefined ? 0 : (isNaN(+size) ? 0 : +size));
     return c.json(data);
 }

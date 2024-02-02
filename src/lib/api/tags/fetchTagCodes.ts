@@ -1,10 +1,10 @@
 import { Char, SetDNI } from "../../../interfaces/Id";
 import { Tag } from "../../../interfaces/Tag";
-import { read } from "../../utils/Dependency";
+import { readAsObject } from "../../utils/Dependency";
 import { Interpreter } from "../../utils/extension-methods";
 
 export async function fetchTagsCodes(lang: string = "en") {
-    let tags = await read<Tag[]>('tags.json');
+    let tags = await readAsObject<Tag[]>('tags.json');
     let ocTags = await getBiosTags();
     let normalTags = tags.filter(t => ocTags.filter(oc => oc.code == t.code).length <= 0).sort((s1, s2) => {
       let s1Trans = Interpreter(s1.name, lang).stuff.firstOrDefault();
@@ -23,7 +23,7 @@ export async function fetchTagsCodes(lang: string = "en") {
   }
 
   async function getBiosTags() {
-    let Bios = await read<SetDNI[]>('oc-bios.json');
+    let Bios = await readAsObject<SetDNI[]>('oc-bios.json');
 
     let bios: Tag[] = [];
 
@@ -35,10 +35,10 @@ export async function fetchTagsCodes(lang: string = "en") {
           for(const alt of bio.alts)
           {
             try {
-              const char = await read<Char>(`oc-bios/chars/${bio.oc}/${alt.source}.json`);
+              const char = await readAsObject<Char>(`oc-bios/chars/${bio.oc}/${alt.source}.json`);
               if (char.hidden != true)
               {
-                let possible = (await read<Tag[]>('tags.json')).filter(t => t.code == alt.source).firstOrDefault();
+                let possible = (await readAsObject<Tag[]>('tags.json')).filter(t => t.code == alt.source).firstOrDefault();
                 if(possible != null)
                   bios.push(possible);
               }

@@ -1,6 +1,6 @@
 import { SocialExt } from "../../../interfaces/SocialExt";
-import { read } from "../../utils/Dependency";
+import { readAsObject } from "../../utils/Dependency";
 
 export async function fetchSocialsExt() {
-    return await read<SocialExt[]>('socials-ext.json');
+    return await readAsObject<SocialExt[]>('socials-ext.json');
 }

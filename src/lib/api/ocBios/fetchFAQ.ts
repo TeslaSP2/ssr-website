@@ -1,10 +1,10 @@
 import { Char, DNI, SetDNI } from "../../../interfaces/Id";
-import { read } from "../../utils/Dependency";
+import { readAsObject } from "../../utils/Dependency";
 
 export async function fetchFAQChars() {
     let ids: DNI[] = [];
     let ret: {ref: string, char: Char}[] = [];
-    let Bios = await read<SetDNI[]>(`oc-bios.json`);
+    let Bios = await readAsObject<SetDNI[]>(`oc-bios.json`);
 
     for(const set of Bios)
     {
@@ -21,7 +21,7 @@ export async function fetchFAQChars() {
     
     for(const id of ids)
     {
-      const char = await read<Char>(`oc-bios/chars/${id.alts.firstOrDefault().source}/${id.alts.firstOrDefault().source}.json`);
+      const char = await readAsObject<Char>(`oc-bios/chars/${id.alts.firstOrDefault().source}/${id.alts.firstOrDefault().source}.json`);
       ret.push({ref: (id.alts.firstOrDefault().source), char: char});
     }
     return ret;

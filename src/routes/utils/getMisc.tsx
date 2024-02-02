@@ -1,5 +1,5 @@
 import { Handler } from "hono";
-import { read } from "../../lib/utils/Dependency";
+import { readAsObject } from "../../lib/utils/Dependency";
 
 export const getMisc: Handler <
     {},
@@ -11,6 +11,6 @@ export const getMisc: Handler <
 }
 
 async function keyFindMisc(key: string) {
-    let r = await read<any>(`misc-stuff.json`);
+    let r = await readAsObject<any>(`misc-stuff.json`);
     return r[key];
 }

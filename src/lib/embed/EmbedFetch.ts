@@ -3,11 +3,11 @@ import { Post } from "../../interfaces/Post";
 import { Tag } from "../../interfaces/Tag";
 import { Collection } from "../../interfaces/Collection";
 import { Char } from "../../interfaces/Id";
-import { getFeaturedStuffFromPost, read } from "../utils/Dependency";
+import { getFeaturedStuffFromPost, readAsObject } from "../utils/Dependency";
 import { RandomInt, Interpreter } from "../utils/extension-methods";
 
 export async function fetchPost(id: string, lang: string = "en") {
-  let archivePost = (await read<ArchivePost[]>(`archive-posts.json`)).filter(p => p.id == id).firstOrDefault();
+  let archivePost = (await readAsObject<ArchivePost[]>(`archive-posts.json`)).filter(p => p.id == id).firstOrDefault();
   if(archivePost == null)
   {
     return {id: id, name: "", description: "", featuredImage: ""}
@@ -32,7 +32,7 @@ export async function fetchPost(id: string, lang: string = "en") {
     return {id: id, name: title, description: title, featuredImage: (archivePost.featuredImage != undefined ? archivePost.featuredImage : ''), altFeaturedImage: (archivePost.altFeaturedImage != undefined ? archivePost.altFeaturedImage : ''),  externalLink: archivePost.externalLink}
   }
 
-  let post = await read<Post>(`posts/${archivePost.unlockDate.toDate().getFullYear()}/${archivePost.jsonName}.json`);
+  let post = await readAsObject<Post>(`posts/${archivePost.unlockDate.toDate().getFullYear()}/${archivePost.jsonName}.json`);
   if(post == null)
   {
     return {id: id, name: title, description: title, featuredImage: (archivePost.featuredImage != undefined ? archivePost.featuredImage : ''), altFeaturedImage: (archivePost.altFeaturedImage != undefined ? archivePost.altFeaturedImage : ''),  externalLink: archivePost.externalLink}
@@ -48,8 +48,8 @@ export async function fetchPost(id: string, lang: string = "en") {
 
 
 export async function fetchTag(tagCode: string, lang: string = "en") {
-    let archivePosts = (await read<ArchivePost[]>(`archive-posts.json`) as ArchivePost[]).filter(p => p.tags != undefined ? p.tags.includes(tagCode) : false)
-    let tag = (await read<Tag[]>(`tags.json`)).filter(t => t.code == tagCode).firstOrDefault();
+    let archivePosts = (await readAsObject<ArchivePost[]>(`archive-posts.json`) as ArchivePost[]).filter(p => p.tags != undefined ? p.tags.includes(tagCode) : false)
+    let tag = (await readAsObject<Tag[]>(`tags.json`)).filter(t => t.code == tagCode).firstOrDefault();
     let images: string[] = [];
 
     let title = Interpreter(tag.name, lang).stuff.firstOrDefault();
@@ -63,7 +63,7 @@ export async function fetchTag(tagCode: string, lang: string = "en") {
         }
         else
         {
-            let post = await read<Post>(`${archivePost.unlockDate.toDate().getFullYear()}/${archivePost.jsonName}.json`);
+            let post = await readAsObject<Post>(`${archivePost.unlockDate.toDate().getFullYear()}/${archivePost.jsonName}.json`);
             if(post != null)
             {
                 let fs = getFeaturedStuffFromPost(archivePost, post, lang);
@@ -76,8 +76,8 @@ export async function fetchTag(tagCode: string, lang: string = "en") {
 }
 
 export async function fetchCollection(id: string, lang: string = "en") {
-    let collection = (await read<Collection[]>(`post-collections.json`)).filter(c => c.id == id).firstOrDefault();
-    let archivePosts = (await read<ArchivePost[]>(`archive-posts.json`)).filter(p => p.collection != undefined ? p.collection.includes(id) : false)
+    let collection = (await readAsObject<Collection[]>(`post-collections.json`)).filter(c => c.id == id).firstOrDefault();
+    let archivePosts = (await readAsObject<ArchivePost[]>(`archive-posts.json`)).filter(p => p.collection != undefined ? p.collection.includes(id) : false)
     let images: string[] = [];
 
     let titleLine = collection.name.filter(h => h.key == lang || (h.key != lang && h.key == "def")).firstOrDefault();
@@ -92,7 +92,7 @@ export async function fetchCollection(id: string, lang: string = "en") {
         }
         else
         {
-          let post = await read<Post>(`${archivePost.unlockDate.toDate().getFullYear()}/${archivePost.jsonName}.json`);
+          let post = await readAsObject<Post>(`${archivePost.unlockDate.toDate().getFullYear()}/${archivePost.jsonName}.json`);
             if(post != null)
             {
                 let fs = getFeaturedStuffFromPost(archivePost, post, lang);
@@ -105,7 +105,7 @@ export async function fetchCollection(id: string, lang: string = "en") {
 }
 
 export async function fetchOc(source: string, lang: string = "en") {
-    let char = await read<Char>(`oc-bios/chars/${source}/${source}.json`);
+    let char = await readAsObject<Char>(`oc-bios/chars/${source}/${source}.json`);
     if(char != undefined)
     {
         let name = char.name+(char.firstName != undefined ? ' '+char.firstName : '')+(char.lastName != undefined ? ' '+char.lastName : '');

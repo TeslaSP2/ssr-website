@@ -1,8 +1,8 @@
 import { LangKeyedString } from "../../../interfaces/General";
-import { read } from "../../utils/Dependency";
+import { readAsObject } from "../../utils/Dependency";
 
 export async function fetchChat(chatJson: string) {
-    return await read<Chat>(`chats/${chatJson}.json`);
+    return await readAsObject<Chat>(`chats/${chatJson}.json`);
 }
 
 export interface Chat {

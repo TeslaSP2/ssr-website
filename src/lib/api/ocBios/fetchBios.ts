@@ -1,6 +1,6 @@
 import { SetDNI } from "../../../interfaces/Id";
-import { read } from "../../utils/Dependency";
+import { readAsObject } from "../../utils/Dependency";
 
 export async function fetchBios() {
-    return await read<SetDNI[]>(`oc-bios.json`);
+    return await readAsObject<SetDNI[]>(`oc-bios.json`);
 }
