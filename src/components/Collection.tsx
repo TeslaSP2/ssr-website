@@ -10,6 +10,7 @@ export const Collection = ({ collection, url }: CollectionProps) => (
     <Layout url={url}>
         <title>{collection.name}</title>
         
+        <meta content="#00968f" name="theme-color" />
         <meta property="og:title" content={collection.name} />
         <meta property="og:image" content={collection.featuredImage} />
         <meta property="og:image:type" content="image/webp" />

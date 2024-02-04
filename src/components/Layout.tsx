@@ -16,7 +16,6 @@ export const Layout = ({ url, children }: LayoutProps) => {
       <head>
         <link rel="canonical" href="${url.substring(1)}" />
         <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-        <meta content="#00968f" name="theme-color" />
         <meta property="og:site_name" content="TeslaSP2" />
         <meta property="og:url" content="${redirectUrl}" />
 

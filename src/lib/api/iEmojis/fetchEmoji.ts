@@ -1,6 +1,7 @@
 import { Iemoji, MtntEmoji } from "../../../interfaces/IEmoji";
 import { del, read, readAsObject } from "../../utils/Dependency";
 import sharp from "sharp";
+import { randomUUID } from "crypto";
 
 export async function fetchEmoji(shortCode: string, size: number = 0) {
     let iemoji: Iemoji | undefined = (await readAsObject<Iemoji[]>(`iemojis.json`)).filter(e => e.emoji == shortCode).firstOrDefault();
@@ -11,7 +12,8 @@ export async function fetchEmoji(shortCode: string, size: number = 0) {
       let trueSrc = mtntemoji.src.substring(0, mtntemoji.src.lastIndexOf('/')+1)+ mtntemoji.short+".webp";
       if(size != 0)
       {
-        let tempPath = './temp.webp';
+
+        let tempPath = `./${randomUUID()}.webp`;
         let readF = await read(`../files/assets/mutant-standard/${trueSrc}`);
         await sharp(readF).resize(size,size,{fit: 'contain'}).webp().toFile(tempPath);
         let b64 = 'data:image/webp;base64,'+await read(tempPath, 'base64');
@@ -29,7 +31,7 @@ export async function fetchEmoji(shortCode: string, size: number = 0) {
         let trueSrc = mtntemojiCode.src.substring(0, mtntemojiCode.src.lastIndexOf('/')+1)+ mtntemojiCode.short+".webp";
         if(size != 0)
         {
-          let tempPath = './temp.webp';
+          let tempPath = `./${randomUUID()}.webp`;
           let readF = await read(`../files/assets/mutant-standard/${trueSrc}`);
           await sharp(readF).resize(size,size,{fit: 'contain'}).webp().toFile(tempPath);
           let b64 = 'data:image/webp;base64,'+await read(tempPath, 'base64');

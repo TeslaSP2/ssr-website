@@ -5,6 +5,7 @@ export interface DisplayPost {
     featuredImage?: string;
     altFeaturedImage?: string;
     externalLink?: string;
+    color?: string;
 }
 
 export interface DisplayCollection {
@@ -17,6 +18,7 @@ export interface DisplayTag {
     tag: string;
     name: string;
     featuredImage: string;
+    color?: string;
 }
 
 export interface DisplayOc {
@@ -24,6 +26,7 @@ export interface DisplayOc {
     name: string;
     description: string;
     featuredImage?: string;
+    color?: string;
 }
 
 export interface OutLink {

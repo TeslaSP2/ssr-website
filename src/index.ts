@@ -1,4 +1,5 @@
 import { Hono } from 'hono'
+import { cors } from 'hono/cors'
 import { serve } from '@hono/node-server'
 
 import { getCollectionEmbed, getOcEmbed, getPostEmbed, getTagEmbed, getTagOrCollectionEmbed } from './routes/embed/EmbedRoutes';
@@ -17,7 +18,7 @@ import { getLinks } from './routes/api/LinksRoutes';
 import { getMusic } from './routes/api/MusicRoutes';
 import { getNatFiles } from './routes/api/NatRoutes';
 import { getBios, getChar, getChars, getCharsQna, getFullChar, getOtherArtists, getOutfitCats, getOutfits } from './routes/api/OcBiosRoutes';
-import { getPost } from './routes/api/PostRoutes';
+import { getPost, getResizedImage } from './routes/api/PostRoutes';
 import { getPricesTable } from './routes/api/PricesRoutes';
 import { getQna, getQnaByAnswerer } from './routes/api/QnARoutes';
 import { getSocialsExt } from './routes/api/SocialsExtRoutes';
@@ -25,6 +26,8 @@ import { getTags, getTagCodes, getTag } from './routes/api/TagsRoutes';
 import { getMisc } from './routes/utils/getMisc';
 
 const app = new Hono();
+
+app.use('https://teslasp2.com/api/*', cors())
 
 app.get('/', async (c) => {
   return c.redirect('https://teslasp2.com')
@@ -106,6 +109,7 @@ app.get("/api/tags", getTags);
 app.get("/api/tags/codes", getTagCodes);
 app.get("/api/tag/:tag", getTag);
 
+app.get("/api/img/:path", getResizedImage);
 app.get("/api/misc/:key", getMisc);
 //#endregion API
 
