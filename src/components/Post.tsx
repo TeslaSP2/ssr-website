@@ -10,6 +10,7 @@ export const Post = ({ post, url }: PostProps) => (
     <Layout url={url}>
         <title>{post.name}</title>
         <meta name="description" content={post.description} />
+        <meta content={post.color??'#00968f'} name="theme-color" />
 
         <meta property="og:title" content={post.name} />
         <meta property="og:description" content={post.description} />

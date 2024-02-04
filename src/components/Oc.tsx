@@ -10,6 +10,7 @@ export const Oc = ({ oc, url }: OcProps) => (
     <Layout url={url}>
         <title>{oc.name}</title>
         <meta name="description" content={oc.description} />
+        <meta content={oc.color??'#00968f'} name="theme-color" />
         
         <meta property="og:title" content={oc.name} />
         <meta property="og:description" content={oc.description} />

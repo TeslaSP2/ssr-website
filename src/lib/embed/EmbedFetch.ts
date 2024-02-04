@@ -5,12 +5,14 @@ import { Collection } from "../../interfaces/Collection";
 import { Char } from "../../interfaces/Id";
 import { getFeaturedStuffFromPost, readAsObject } from "../utils/Dependency";
 import { RandomInt, Interpreter } from "../utils/extension-methods";
+import { DisplayOc } from "../../interfaces/General";
+import { getDefColor } from "../utils/ColorService";
 
 export async function fetchPost(id: string, lang: string = "en") {
   let archivePost = (await readAsObject<ArchivePost[]>(`archive-posts.json`)).filter(p => p.id == id).firstOrDefault();
   if(archivePost == null)
   {
-    return {id: id, name: "", description: "", featuredImage: ""}
+    return {id: id, name: "Fail", description: "404", featuredImage: 'https://files.teslasp2.com/assets/imgs/idk.webp'}
   }
 
   let titleLine = archivePost.linkPart.filter(h => h.key == lang || (h.key != lang && h.key == "def")).firstOrDefault();
@@ -29,23 +31,21 @@ export async function fetchPost(id: string, lang: string = "en") {
 
   if(archivePost.jsonName == "" || archivePost.jsonName == undefined || archivePost.jsonName == null)
   {
-    return {id: id, name: title, description: title, featuredImage: (archivePost.featuredImage != undefined ? archivePost.featuredImage : ''), altFeaturedImage: (archivePost.altFeaturedImage != undefined ? archivePost.altFeaturedImage : ''),  externalLink: archivePost.externalLink}
+    return {id: id, name: title, description: title, featuredImage: (archivePost.featuredImage != undefined ? archivePost.featuredImage : ''), altFeaturedImage: (archivePost.altFeaturedImage != undefined ? archivePost.altFeaturedImage : ''), externalLink: archivePost.externalLink, color: (archivePost.tags != undefined ? `#${await getDefColor(archivePost.tags[0])}` : undefined)}
   }
 
   let post = await readAsObject<Post>(`posts/${archivePost.unlockDate.toDate().getFullYear()}/${archivePost.jsonName}.json`);
   if(post == null)
   {
-    return {id: id, name: title, description: title, featuredImage: (archivePost.featuredImage != undefined ? archivePost.featuredImage : ''), altFeaturedImage: (archivePost.altFeaturedImage != undefined ? archivePost.altFeaturedImage : ''),  externalLink: archivePost.externalLink}
+    return {id: id, name: title, description: title, featuredImage: (archivePost.featuredImage != undefined ? archivePost.featuredImage : ''), altFeaturedImage: (archivePost.altFeaturedImage != undefined ? archivePost.altFeaturedImage : ''), externalLink: archivePost.externalLink, color: (archivePost.tags != undefined ? `#${await getDefColor(archivePost.tags[0])}` : undefined)}
   }
 
   let firstLine = Interpreter(post.body.filter(b => b.type == 'p').firstOrDefault().content, lang).stuff.rasterize();
 
   let fs = getFeaturedStuffFromPost(archivePost, post, lang);
   
-  return {id: id, name: title, description: firstLine, featuredImage: fs.censImage != undefined ? fs.censImage : fs.image, altFeaturedImage: fs.alt}
+  return {id: id, name: title, description: firstLine, featuredImage: fs.censImage != undefined ? fs.censImage : fs.image, altFeaturedImage: fs.alt, color: (archivePost.tags != undefined ? `#${await getDefColor(archivePost.tags[0])}` : undefined)}
 }
-
-
 
 export async function fetchTag(tagCode: string, lang: string = "en") {
     let archivePosts = (await readAsObject<ArchivePost[]>(`archive-posts.json`) as ArchivePost[]).filter(p => p.tags != undefined ? p.tags.includes(tagCode) : false)
@@ -72,7 +72,7 @@ export async function fetchTag(tagCode: string, lang: string = "en") {
         }
     }
 
-    return {tag: tagCode, name: title, featuredImage: images[RandomInt(images.length)]}
+    return {tag: tagCode, name: title, featuredImage: images[RandomInt(images.length)], color: `#${await getDefColor(tagCode)}`}
 }
 
 export async function fetchCollection(id: string, lang: string = "en") {
@@ -104,7 +104,7 @@ export async function fetchCollection(id: string, lang: string = "en") {
     return {id: id, name: title, featuredImage: images[RandomInt(images.length)]}
 }
 
-export async function fetchOc(source: string, lang: string = "en") {
+export async function fetchOc(source: string, lang: string = "en"): Promise<DisplayOc> {
     let char = await readAsObject<Char>(`oc-bios/chars/${source}/${source}.json`);
     if(char != undefined)
     {
@@ -122,9 +122,8 @@ export async function fetchOc(source: string, lang: string = "en") {
 
         description += Interpreter(char.personality, lang).stuff.rasterize();
         
-        console.log({source: source, name: name, description: description, featuredImage: char.personalData.headshot});
-        return {source: source, name: name, description: description, featuredImage: char.personalData.headshot};
+        return {source: source, name: name, description: description, featuredImage: char.personalData.headshot, color: `#${await getDefColor(char.route)}`};
     }
 
-    return {source: source, name: 'Unknown', description: 'idk mate'}
+    return {source: source, name: 'Unknown', description: 'idk mate', featuredImage: 'https://files.teslasp2.com/assets/imgs/idk.webp'}
 }
