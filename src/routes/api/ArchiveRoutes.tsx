@@ -4,6 +4,7 @@ import { fetchArchive } from "../../lib/api/archive/fetchArchive";
 import { fetchArchivePost } from "../../lib/api/archive/fetchArchivePost";
 import { fetchArchiveLastPosts } from "../../lib/api/archive/fetchArchiveLastPosts";
 import { fetchNextPost } from "../../lib/api/archive/fetchNextPost";
+import { fetchArchiveRecap } from "../../lib/api/archive/fetchArchiveRecap";
 
 export const getArchive: Handler <
 {},
@@ -11,6 +12,14 @@ export const getArchive: Handler <
 > = async (c) => {
     const data = await fetchArchive();
     return c.json(data);
+}
+
+export const getArchiveRecap: Handler <
+{},
+"/api/archive/recap"
+> = async (c) => {
+    const data = await fetchArchiveRecap();
+    return c.json({recap: data});
 }
 
 export const getArchivePost: Handler <

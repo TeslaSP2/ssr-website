@@ -35,7 +35,7 @@ export function getFeaturedStuffFromPost(archivePost: ArchivePost, post: Post, l
 
               if (stuff.length > 0)
                 for (const s of stuff) {
-                  altLines.push(s.str);
+                  altLines.push(s.str??'');
                 }
             }
 
@@ -260,4 +260,68 @@ function compareTerms(searchTerms: string[], tags?: string[]) {
     return c.length == l;
   }
   return false;
+}
+
+export async function getNext(id: string, nsfwOn: boolean) {
+  let archivePosts = await readAsObject<ArchivePost[]>(`archive-posts.json`);
+
+  let post = archivePosts.filter(p => p.id == id && p.unlockDate.checkForUnlock()).firstOrDefault();
+  if(post == null)
+    return undefined;
+
+  let index = archivePosts.indexOf(post)-1;
+  let ok = false;
+  while(!ok && index > 0)
+  { 
+    let postP = archivePosts[index];
+    if(postP.unlisted != true)
+    {
+      if(postP.unlockDate.checkForUnlock() && postP.jsonName != undefined && !nsfwOn ? (await hasSFW(postP)) : true)
+        ok = true;
+      else
+        index--;
+    }
+    else
+      index--;
+  }
+
+  if(index > 0)
+    if(archivePosts[index].unlockDate.checkForUnlock() && archivePosts[index].jsonName != undefined && archivePosts[index].unlisted != true && !nsfwOn ? (await hasSFW(archivePosts[index])) : true)
+      return archivePosts[index].id;
+    else
+      return undefined;
+  else
+    return undefined;
+}
+
+export async function getPrev(id: string, nsfwOn: boolean) {
+  let archivePosts = await readAsObject<ArchivePost[]>(`archive-posts.json`);
+
+  let post = archivePosts.filter(p => p.id == id && p.unlockDate.checkForUnlock()).firstOrDefault();
+  if(post == null)
+    return undefined;
+
+  let index = archivePosts.indexOf(post)+1;
+  let ok = false;
+  while(!ok && index < archivePosts.length)
+  {
+    let postP = archivePosts[index];
+    if(postP.unlisted != true)
+    {
+      if(postP.unlockDate.checkForUnlock() && postP.jsonName != undefined && !nsfwOn ? (await hasSFW(postP)) : true)
+        ok = true;
+      else
+        index++;
+    }
+    else
+      index++;
+  }
+
+  if(index < archivePosts.length)
+    if(archivePosts[index].unlockDate.checkForUnlock() && archivePosts[index].jsonName != undefined && archivePosts[index].unlisted != true && !nsfwOn ? (await hasSFW(archivePosts[index])) : true)
+      return archivePosts[index].id;
+    else
+      return undefined;
+  else
+    return undefined;
 }

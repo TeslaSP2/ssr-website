@@ -8,12 +8,23 @@ import { fetchOutfits } from "../../lib/api/ocBios/fetchOutfits";
 import { fetchOtherArtists } from "../../lib/api/ocBios/fetchOtherArtists";
 import { fetchChar } from "../../lib/api/ocBios/fetchChar";
 import { fetchCharFull } from "../../lib/api/ocBios/fetchCharFull";
+import { fetchBiosBySet } from "../../lib/api/ocBios/fetchBiosBySet";
+import { fetchSetByChar } from "../../lib/api/ocBios/fetchSetByChar";
 
 export const getBios: Handler <
 {},
 "/api/ocBios"
 > = async (c) => {
     const data = await fetchBios();
+    return c.json(data);
+}
+
+export const getBiosBySet: Handler <
+{},
+"/api/ocBios/:set"
+> = async (c) => {
+    const { set } = c.req.param();
+    const data = await fetchBiosBySet(+set);
     return c.json(data);
 }
 
@@ -62,7 +73,7 @@ export const getOtherArtists: Handler <
 
 export const getChar: Handler <
 {},
-"/api/char/:oc"
+"/api/ocBio/char/:oc"
 > = async (c) => {
     const { oc } = c.req.param();
     const data = await fetchChar(oc);
@@ -71,9 +82,18 @@ export const getChar: Handler <
 
 export const getFullChar: Handler <
 {},
-"/api/char/full/:oc"
+"/api/ocBio/char/full/:oc"
 > = async (c) => {
     const { oc } = c.req.param();
     const data = await fetchCharFull(oc);
     return c.json(data);
+}
+
+export const getSetByChar: Handler <
+{},
+"/api/ocBio/set/:oc"
+> = async (c) => {
+    const { oc } = c.req.param();
+    const data = await fetchSetByChar(oc);
+    return c.json({set: data});
 }

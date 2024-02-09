@@ -4,8 +4,6 @@ import { readAsObject } from "../../utils/Dependency";
 import { RandomInt } from "../../utils/extension-methods";
 
 export async function fetchArchiveLastPosts(num: number, options?: { startDate?: Date; endDate?: Date, random?: boolean, uncut?: boolean}) {
-  console.log(num, options)
-
   let allPosts = (await readAsObject<ArchivePost[]>(`archive-posts.json`)).filter(p => p.unlockDate.checkForUnlock() && ((p.unlisted??false) == false));
 
   if(options != undefined)

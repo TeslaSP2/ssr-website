@@ -1,7 +1,8 @@
 import { Handler } from "hono";
 
 import { fetchPost } from "../../lib/api/posts/fetchPost";
-import { fetchResizeImage } from "../../lib/api/posts/fetchResizePostImage";
+import { fetchPostById } from "../../lib/api/posts/fetchPostById";
+import { fetchRandomPost } from "../../lib/api/posts/fetchRandomPost";
 
 export const getPost: Handler <
 {},
@@ -12,13 +13,27 @@ export const getPost: Handler <
     return c.json(data);
 }
 
-export const getResizedImage: Handler <
+export const getPostById: Handler <
 {},
-"/api/img/:path"
+"/api/post/:id"
 > = async (c) => {
-    const path = c.req.param('path');
-    const realPath = decodeURIComponent(path);
-    const size = c.req.query('size');
-    const data = await fetchResizeImage(realPath, size == undefined ? 0 : (isNaN(+size) ? 0 : +size));
+    const { id } = c.req.param();
+    const lang = c.req.query('lang');
+    const data = await fetchPostById(id, lang??"en");
+    return c.json(data);
+}
+
+export const getRandomPost: Handler <
+{},
+"/api/post/random"
+> = async (c) => {
+    const year = c.req.query('year');
+    const month = c.req.query('month');
+    let options: {year: number; month: number} | undefined = undefined;
+
+    if(year != undefined && month != undefined)
+        options = {year: +year, month: +month};
+
+    const data = await fetchRandomPost(options);
     return c.json(data);
 }
