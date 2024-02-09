@@ -1,3 +1,5 @@
+import { LangKeyedString } from "./General";
+
 export interface ArchivePost {
     id: string;
     unlockDate: string;
@@ -17,5 +19,6 @@ export interface ArchivePost {
     externalLink?: string;
     tags?:string[];
     cw?: string[];
+    warning?: LangKeyedString[];
     collection?: string[];
 }
